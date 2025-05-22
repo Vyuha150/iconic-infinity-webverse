@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -22,13 +22,13 @@ const VerticalCard: React.FC<VerticalCardProps> = ({
 }) => {
   // Alternate the layout for even and odd indexes
   const isEven = index % 2 === 0;
-  const cardRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add("animate-in");
+          setIsVisible(true);
         }
       },
       {
@@ -36,28 +36,29 @@ const VerticalCard: React.FC<VerticalCardProps> = ({
       }
     );
     
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
+    const currentElement = document.getElementById(`vertical-card-${index}`);
+    if (currentElement) {
+      observer.observe(currentElement);
     }
     
     return () => {
-      if (cardRef.current) {
-        observer.unobserve(cardRef.current);
+      if (currentElement) {
+        observer.unobserve(currentElement);
       }
     };
-  }, []);
+  }, [index]);
 
   return (
     <div
-      ref={cardRef}
+      id={`vertical-card-${index}`}
       className={`flex flex-col ${
         isEven ? "md:flex-row" : "md:flex-row-reverse"
-      } bg-iconic-dark/50 dark:bg-iconic-slate/30 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 opacity-0`}
+      } bg-iconic-dark/50 dark:bg-iconic-slate/30 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300`}
       style={{ 
-        transform: `translateX(${isEven ? -100 : 100}px)`,
-        transitionDelay: `${index * 100}ms`,
-        transitionProperty: 'transform, opacity',
-        transitionDuration: '1s'
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateX(0)' : `translateX(${isEven ? -100 : 100}px)`,
+        transition: 'opacity 1s, transform 1s',
+        transitionDelay: `${index * 100}ms`
       }}
     >
       <div className="md:w-1/2 relative overflow-hidden group h-64 md:h-auto">

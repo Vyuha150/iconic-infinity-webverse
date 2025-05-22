@@ -184,6 +184,27 @@
     opacity: 1;
   }
 
+  /* Feature icon animation */
+  .animate-feature-icon {
+    opacity: 0;
+    animation: popIn 0.6s forwards;
+    animation-delay: var(--delay, 0s);
+  }
+
+  @keyframes popIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    60% {
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
   @keyframes fadeInUp {
     from {
       opacity: 0;

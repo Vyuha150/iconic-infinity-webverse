@@ -45,24 +45,18 @@ const Hero = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center">
           <h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 hero-text-gradient opacity-100 animate-on-load"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-iconic-gold opacity-100 animate-on-load"
             style={{ animationDelay: "200ms" }}
           >
             ICONIC Infinity Group
-            <span className="block mt-4 text-iconic-gold">Face of the Future</span>
+            <span className="block mt-4 text-iconic-gold text-2xl md:text-3xl lg:text-4xl">Face of the Future</span>
           </h1>
           
-          <p 
-            className="text-lg md:text-xl text-gray-300 mb-8 opacity-100 animate-on-load"
-            style={{ animationDelay: "400ms" }}
-          >
-            We build customer-friendly brands driven by excellence, quality, and innovation. 
-            Our commitment to quality transcends profit, delivering exceptional solutions across multiple verticals.
-          </p>
+          {/* Removing the text paragraph as requested */}
           
           <div 
-            className="flex flex-col sm:flex-row justify-center gap-4 opacity-100 animate-on-load"
-            style={{ animationDelay: "600ms" }}
+            className="flex flex-col sm:flex-row justify-center gap-4 opacity-100 animate-on-load mt-16"
+            style={{ animationDelay: "400ms" }}
           >
             <Button 
               asChild
@@ -83,11 +77,11 @@ const Hero = () => {
         </div>
 
         <div 
-          className="mt-16 md:mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto opacity-100 animate-on-load"
-          style={{ animationDelay: "800ms" }}
+          className="mt-24 md:mt-32 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto opacity-100 animate-on-load"
+          style={{ animationDelay: "600ms" }}
         >
-          <div className="flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-iconic-gold/10 flex items-center justify-center mb-3">
+          <div className="flex flex-col items-center text-center animate-feature-icon">
+            <div className="w-12 h-12 rounded-full bg-iconic-gold/10 flex items-center justify-center mb-3 hover-glow">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-iconic-gold">
                 <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
               </svg>
@@ -95,8 +89,8 @@ const Hero = () => {
             <h3 className="font-semibold text-white">Excellence</h3>
           </div>
           
-          <div className="flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-iconic-gold/10 flex items-center justify-center mb-3">
+          <div className="flex flex-col items-center text-center animate-feature-icon" style={{ animationDelay: "150ms" }}>
+            <div className="w-12 h-12 rounded-full bg-iconic-gold/10 flex items-center justify-center mb-3 hover-glow">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-iconic-gold">
                 <circle cx="12" cy="12" r="8"></circle>
                 <circle cx="12" cy="12" r="3"></circle>
@@ -105,8 +99,8 @@ const Hero = () => {
             <h3 className="font-semibold text-white">Quality</h3>
           </div>
           
-          <div className="flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-iconic-gold/10 flex items-center justify-center mb-3">
+          <div className="flex flex-col items-center text-center animate-feature-icon" style={{ animationDelay: "300ms" }}>
+            <div className="w-12 h-12 rounded-full bg-iconic-gold/10 flex items-center justify-center mb-3 hover-glow">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-iconic-gold">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
                 <polyline points="19 12 12 19 5 12"></polyline>
@@ -115,8 +109,8 @@ const Hero = () => {
             <h3 className="font-semibold text-white">Innovation</h3>
           </div>
           
-          <div className="flex flex-col items-center text-center">
-            <div className="w-12 h-12 rounded-full bg-iconic-gold/10 flex items-center justify-center mb-3">
+          <div className="flex flex-col items-center text-center animate-feature-icon" style={{ animationDelay: "450ms" }}>
+            <div className="w-12 h-12 rounded-full bg-iconic-gold/10 flex items-center justify-center mb-3 hover-glow">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-iconic-gold">
                 <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                 <circle cx="9" cy="7" r="4"></circle>

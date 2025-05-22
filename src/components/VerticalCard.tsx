@@ -52,10 +52,9 @@ const VerticalCard: React.FC<VerticalCardProps> = ({
       ref={cardRef}
       className={`flex flex-col ${
         isEven ? "md:flex-row" : "md:flex-row-reverse"
-      } bg-iconic-dark/50 dark:bg-iconic-slate/30 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 animate-on-scroll transform ${
-        isEven ? "md:translate-x-[-100px]" : "md:translate-x-[100px]"
-      } opacity-0`}
+      } bg-iconic-dark/50 dark:bg-iconic-slate/30 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 opacity-0`}
       style={{ 
+        transform: `translateX(${isEven ? -100 : 100}px)`,
         transitionDelay: `${index * 100}ms`,
         transitionProperty: 'transform, opacity',
         transitionDuration: '1s'

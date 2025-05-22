@@ -174,8 +174,14 @@
   }
 
   .animate-on-load {
-    @apply opacity-0;
+    opacity: 0;
     animation: fadeInUp 0.8s forwards;
+    animation-delay: var(--delay, 0s);
+    animation-fill-mode: both;
+  }
+
+  .animate-on-load.animate-fade-in {
+    opacity: 1;
   }
 
   @keyframes fadeInUp {

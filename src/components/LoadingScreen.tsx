@@ -16,7 +16,7 @@ const LoadingScreen = () => {
   if (!isLoading) return null;
 
   return (
-    <div className="fixed inset-0 bg-iconic-dark z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-iconic-dark z-[9999] flex items-center justify-center">
       <div className="relative flex flex-col items-center">
         <svg className="w-24 h-24" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
           <path

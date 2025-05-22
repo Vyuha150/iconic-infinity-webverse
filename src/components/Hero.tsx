@@ -6,27 +6,28 @@ import ThreeCanvas from "./ThreeCanvas";
 
 const Hero = () => {
   useEffect(() => {
-    // Animation for text elements
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px",
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("animate-fade-in");
-        }
-      });
-    }, observerOptions);
+    // Animation for text elements - with fixed visibility
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-fade-in");
+          }
+        });
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
 
     const elements = document.querySelectorAll(".animate-on-load");
     elements.forEach((el) => {
       observer.observe(el);
-      // Force visibility after a short delay to ensure elements are visible
+      // Ensure visibility by adding class after a short delay
       setTimeout(() => {
         el.classList.add("animate-fade-in");
-      }, 500);
+      }, 100);
     });
 
     return () => {
@@ -44,7 +45,7 @@ const Hero = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center">
           <h1 
-            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 hero-text-gradient animate-on-load"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 hero-text-gradient opacity-100 animate-on-load"
             style={{ animationDelay: "200ms" }}
           >
             ICONIC Infinity Group
@@ -52,7 +53,7 @@ const Hero = () => {
           </h1>
           
           <p 
-            className="text-lg md:text-xl text-gray-300 mb-8 animate-on-load"
+            className="text-lg md:text-xl text-gray-300 mb-8 opacity-100 animate-on-load"
             style={{ animationDelay: "400ms" }}
           >
             We build customer-friendly brands driven by excellence, quality, and innovation. 
@@ -60,7 +61,7 @@ const Hero = () => {
           </p>
           
           <div 
-            className="flex flex-col sm:flex-row justify-center gap-4 animate-on-load"
+            className="flex flex-col sm:flex-row justify-center gap-4 opacity-100 animate-on-load"
             style={{ animationDelay: "600ms" }}
           >
             <Button 
@@ -82,7 +83,7 @@ const Hero = () => {
         </div>
 
         <div 
-          className="mt-16 md:mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto animate-on-load"
+          className="mt-16 md:mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto opacity-100 animate-on-load"
           style={{ animationDelay: "800ms" }}
         >
           <div className="flex flex-col items-center text-center">

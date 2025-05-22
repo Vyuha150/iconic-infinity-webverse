@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -22,21 +22,53 @@ const VerticalCard: React.FC<VerticalCardProps> = ({
 }) => {
   // Alternate the layout for even and odd indexes
   const isEven = index % 2 === 0;
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("animate-in");
+        }
+      },
+      {
+        threshold: 0.1,
+      }
+    );
+    
+    if (cardRef.current) {
+      observer.observe(cardRef.current);
+    }
+    
+    return () => {
+      if (cardRef.current) {
+        observer.unobserve(cardRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div
+      ref={cardRef}
       className={`flex flex-col ${
         isEven ? "md:flex-row" : "md:flex-row-reverse"
-      } bg-white dark:bg-iconic-slate/50 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 animate-on-scroll`}
+      } bg-white dark:bg-iconic-slate/50 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 animate-on-scroll transform ${
+        isEven ? "md:translate-x-[-100px]" : "md:translate-x-[100px]"
+      } opacity-0`}
+      style={{ 
+        transitionDelay: `${index * 100}ms`,
+        transitionProperty: 'transform, opacity',
+        transitionDuration: '1s'
+      }}
     >
-      <div className="md:w-1/2 relative overflow-hidden group">
+      <div className="md:w-1/2 relative overflow-hidden group h-64 md:h-auto">
         <img
           src={imageUrl}
           alt={title}
-          className="w-full h-64 md:h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 brightness-90 dark:brightness-75"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-70"></div>
-        <div className="absolute bottom-0 left-0 p-6 text-white">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-80"></div>
+        <div className="absolute bottom-0 left-0 p-6 text-white z-10">
           <h3 className="text-xl font-bold">{title}</h3>
           <p className="text-white/90 italic">{tagline}</p>
         </div>
@@ -49,7 +81,7 @@ const VerticalCard: React.FC<VerticalCardProps> = ({
         <Button
           asChild
           variant="outline"
-          className="border-iconic-blue text-iconic-blue hover:bg-iconic-blue/10 self-start"
+          className="border-iconic-blue text-iconic-blue hover:bg-iconic-blue hover:text-white self-start transition-colors duration-300"
         >
           <Link to={link}>Learn More</Link>
         </Button>

@@ -12,6 +12,10 @@ import Portfolio from "./pages/Portfolio";
 import Innovation from "./pages/Innovation";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import Career from "./pages/Career";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import Cookies from "./pages/Cookies";
 
 const queryClient = new QueryClient();
 
@@ -60,6 +64,10 @@ const App = () => {
             <Route path="/portfolio" element={<Portfolio />} />
             <Route path="/innovation" element={<Innovation />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/career" element={<Career />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/cookies" element={<Cookies />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

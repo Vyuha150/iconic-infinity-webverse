@@ -4,7 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Services from "./pages/Services";
@@ -16,10 +16,13 @@ import Career from "./pages/Career";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Cookies from "./pages/Cookies";
+import LoadingScreen from "./components/LoadingScreen";
 
 const queryClient = new QueryClient();
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     // Update document title
     document.title = "ICONIC Infinity Group | Face of the Future";
@@ -29,6 +32,14 @@ const App = () => {
     if (metaDescription) {
       metaDescription.setAttribute("content", "ICONIC Infinity Group is driven by excellence, quality and innovation. We build customer-friendly brands across multiple verticals.");
     }
+    
+    // Force dark mode
+    document.documentElement.classList.add('dark');
+    
+    // Simulate loading completion
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2500);
     
     // Add animation script for scroll reveal
     const handleScroll = () => {
@@ -48,6 +59,7 @@ const App = () => {
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      clearTimeout(timer);
     };
   }, []);
 
@@ -56,6 +68,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        {isLoading && <LoadingScreen />}
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />

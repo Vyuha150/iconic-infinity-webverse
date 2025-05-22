@@ -44,7 +44,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   return (
     <div
       ref={cardRef}
-      className="service-card flex flex-col relative overflow-hidden group animate-on-scroll rounded-lg border border-gray-200 dark:border-gray-800 p-6 backdrop-blur-sm"
+      className="service-card flex flex-col relative overflow-hidden group animate-on-scroll rounded-lg border border-iconic-slate dark:border-iconic-slate/50 p-6 backdrop-blur-sm"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -63,14 +63,14 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       ></div>
 
       <div className="z-10 flex-1 flex flex-col">
-        <div className="mb-4 text-iconic-blue transform transition-transform duration-300 group-hover:scale-110 text-4xl">
+        <div className="mb-4 text-iconic-gold transform transition-transform duration-300 group-hover:scale-110 text-4xl">
           {icon}
         </div>
-        <h3 className="text-xl font-bold mb-3 group-hover:text-iconic-blue transition-colors duration-300">{title}</h3>
-        <p className="text-gray-700 dark:text-gray-300 mb-6">{description}</p>
+        <h3 className="text-xl font-bold mb-3 text-white group-hover:text-iconic-gold transition-colors duration-300">{title}</h3>
+        <p className="text-gray-300 mb-6">{description}</p>
         <Link
           to={link}
-          className="mt-auto inline-flex items-center text-iconic-blue font-medium hover:underline"
+          className="mt-auto inline-flex items-center text-iconic-gold font-medium hover:underline"
         >
           Learn more
           <svg

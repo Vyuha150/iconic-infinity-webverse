@@ -64,11 +64,11 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				iconic: {
-					blue: '#0047AB',
-					gold: '#FFD700',
+					blue: '#0047AB',  // Navy Blue
+					gold: '#FFD700',  // Gold
 					slate: '#1E293B',
 					light: '#F8FAFC',
-					dark: '#0F172A'
+					dark: '#0F172A'   // Dark background
 				}
 			},
 			borderRadius: {
@@ -104,6 +104,10 @@ export default {
 				'rotate-3d': {
 					'0%': { transform: 'rotateY(0deg)' },
 					'100%': { transform: 'rotateY(360deg)' }
+				},
+				'dash': {
+					'0%': { strokeDashoffset: '150' },
+					'100%': { strokeDashoffset: '0' }
 				}
 			},
 			animation: {
@@ -113,7 +117,8 @@ export default {
 				'fade-out': 'fade-out 0.5s ease-out',
 				'float': 'float 5s ease-in-out infinite',
 				'spin-slow': 'spin-slow 20s linear infinite',
-				'rotate-3d': 'rotate-3d 15s linear infinite'
+				'rotate-3d': 'rotate-3d 15s linear infinite',
+				'dash': 'dash 2s ease-in-out infinite alternate'
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],

@@ -32,6 +32,20 @@ const Innovation = () => {
       observer.observe(el);
     });
 
+    // Add animation for innovation approach blocks
+    const approachBlocks = document.querySelectorAll(".approach-block");
+    approachBlocks.forEach((el, index) => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(20px)";
+      el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+      el.style.transitionDelay = `${index * 150}ms`;
+      
+      setTimeout(() => {
+        el.style.opacity = "1";
+        el.style.transform = "translateY(0)";
+      }, 300 + (index * 150));
+    });
+
     return () => {
       elements.forEach((el) => {
         observer.unobserve(el);
@@ -200,25 +214,25 @@ const Innovation = () => {
                 </p>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="bg-gray-50 dark:bg-iconic-slate/50 p-4 rounded-lg">
+                  <div className="bg-gray-50 dark:bg-iconic-slate/50 p-4 rounded-lg approach-block hover:shadow-md transition-all duration-300 hover:bg-iconic-blue/5">
                     <h3 className="font-semibold mb-2 text-iconic-blue">Customer-Centric</h3>
                     <p className="text-sm text-gray-700 dark:text-gray-300">
                       All innovations focus on enhancing customer experience and value.
                     </p>
                   </div>
-                  <div className="bg-gray-50 dark:bg-iconic-slate/50 p-4 rounded-lg">
+                  <div className="bg-gray-50 dark:bg-iconic-slate/50 p-4 rounded-lg approach-block hover:shadow-md transition-all duration-300 hover:bg-iconic-blue/5">
                     <h3 className="font-semibold mb-2 text-iconic-blue">Data-Driven</h3>
                     <p className="text-sm text-gray-700 dark:text-gray-300">
                       We use analytics and market insights to guide innovation decisions.
                     </p>
                   </div>
-                  <div className="bg-gray-50 dark:bg-iconic-slate/50 p-4 rounded-lg">
+                  <div className="bg-gray-50 dark:bg-iconic-slate/50 p-4 rounded-lg approach-block hover:shadow-md transition-all duration-300 hover:bg-iconic-blue/5">
                     <h3 className="font-semibold mb-2 text-iconic-blue">Collaborative</h3>
                     <p className="text-sm text-gray-700 dark:text-gray-300">
                       Cross-functional teams work together to develop holistic solutions.
                     </p>
                   </div>
-                  <div className="bg-gray-50 dark:bg-iconic-slate/50 p-4 rounded-lg">
+                  <div className="bg-gray-50 dark:bg-iconic-slate/50 p-4 rounded-lg approach-block hover:shadow-md transition-all duration-300 hover:bg-iconic-blue/5">
                     <h3 className="font-semibold mb-2 text-iconic-blue">Agile</h3>
                     <p className="text-sm text-gray-700 dark:text-gray-300">
                       Rapid prototyping and iteration allows for quick refinement.

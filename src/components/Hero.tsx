@@ -55,7 +55,7 @@ const Hero = () => {
           {/* Removing the text paragraph as requested */}
           
           <div 
-            className="flex flex-col sm:flex-row justify-center gap-4 opacity-100 animate-on-load mt-32" 
+            className="flex flex-col sm:flex-row justify-center gap-4 opacity-100 animate-on-load mt-48" 
             style={{ animationDelay: "400ms" }}
           >
             <Button 

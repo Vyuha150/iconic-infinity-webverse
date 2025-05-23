@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 
@@ -62,6 +63,15 @@ const ThreeCanvas = () => {
       const radialSegments = 32;
       const tubularSegments = 200;
       
+      // Set gold color for both parts of the infinity symbol
+      const goldColor = 0xFFD700; // Gold color
+      const goldMaterial = new THREE.MeshStandardMaterial({ 
+        color: goldColor,
+        metalness: 0.9,
+        roughness: 0.1,
+        envMapIntensity: 1.2,
+      });
+      
       // Create left loop of infinity
       const curve1 = new THREE.Curve<THREE.Vector3>();
       curve1.getPoint = function (t) {
@@ -73,14 +83,7 @@ const ThreeCanvas = () => {
       };
       
       const geometry1 = new THREE.TubeGeometry(curve1, tubularSegments, tubeRadius, radialSegments, true);
-      const material1 = new THREE.MeshStandardMaterial({ 
-        color: 0x0047AB, // Blue color
-        metalness: 0.8,
-        roughness: 0.2,
-        envMapIntensity: 1.0,
-      });
-      
-      const leftLoop = new THREE.Mesh(geometry1, material1);
+      const leftLoop = new THREE.Mesh(geometry1, goldMaterial);
       infinityGroup.add(leftLoop);
       
       // Create right loop of infinity
@@ -94,29 +97,22 @@ const ThreeCanvas = () => {
       };
       
       const geometry2 = new THREE.TubeGeometry(curve2, tubularSegments, tubeRadius, radialSegments, true);
-      const material2 = new THREE.MeshStandardMaterial({ 
-        color: 0xFFD700, // Gold color
-        metalness: 0.8, 
-        roughness: 0.2,
-        envMapIntensity: 1.0,
-      });
-      
-      const rightLoop = new THREE.Mesh(geometry2, material2);
+      const rightLoop = new THREE.Mesh(geometry2, goldMaterial);
       infinityGroup.add(rightLoop);
 
-      // Create particles for background effect
+      // Create particles for background effect - optimize count for better performance
       const particlesGeometry = new THREE.BufferGeometry();
-      const particlesCount = 2000;
+      const particlesCount = 1500; // Reduced from 2000 for better performance
       
       const positions = new Float32Array(particlesCount * 3);
       const colors = new Float32Array(particlesCount * 3);
       
-      const color1 = new THREE.Color(0x0047AB); // Blue
-      const color2 = new THREE.Color(0xFFD700); // Gold
+      const color1 = new THREE.Color(0xFFD700); // Gold
+      const color2 = new THREE.Color(0xFFF8DC); // Light gold/cream for variation
       
       for (let i = 0; i < particlesCount; i++) {
         // Positions
-        const distance = Math.random() * 50 + 15;
+        const distance = Math.random() * 40 + 15;
         const theta = THREE.MathUtils.randFloatSpread(360); 
         const phi = THREE.MathUtils.randFloatSpread(360);
         
@@ -124,9 +120,9 @@ const ThreeCanvas = () => {
         positions[i * 3 + 1] = distance * Math.sin(theta) * Math.sin(phi);
         positions[i * 3 + 2] = distance * Math.cos(theta);
         
-        // Colors - interpolate between blue and gold
+        // Colors - interpolate between gold shades
         const mixedColor = color1.clone();
-        mixedColor.lerp(color2, Math.random());
+        mixedColor.lerp(color2, Math.random() * 0.3); // Limit variation to maintain gold appearance
         
         colors[i * 3] = mixedColor.r;
         colors[i * 3 + 1] = mixedColor.g;
@@ -137,7 +133,7 @@ const ThreeCanvas = () => {
       particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
       
       const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.05,
+        size: 0.06,
         vertexColors: true,
         transparent: true,
         opacity: 0.8,
@@ -156,8 +152,8 @@ const ThreeCanvas = () => {
       directionalLight.position.set(10, 10, 10);
       scene.add(directionalLight);
 
-      // Add point lights
-      const pointLight1 = new THREE.PointLight(0x0047AB, 2, 50); // Blue light
+      // Add point lights - both gold for consistent color theme
+      const pointLight1 = new THREE.PointLight(0xFFD700, 2, 50); // Gold light
       pointLight1.position.set(-5, 3, 5);
       scene.add(pointLight1);
 
@@ -168,8 +164,14 @@ const ThreeCanvas = () => {
       // Set camera position
       camera.position.z = 8;
 
-      // Make scene interactive with mouse movement
+      // Make scene interactive with mouse movement - using throttling for performance
+      let lastMouseMoveTime = 0;
       const handleMouseMove = (event: MouseEvent) => {
+        const now = performance.now();
+        // Throttle mouse movement handling to improve performance
+        if (now - lastMouseMoveTime < 30) return; // 30ms throttle
+        lastMouseMoveTime = now;
+        
         const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
         const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
         
@@ -182,20 +184,26 @@ const ThreeCanvas = () => {
         pointLight1.position.y = mouseY * 5;
       };
 
-      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-      // Handle window resize
+      // Handle window resize with throttling for performance
+      let resizeTimeout: number | undefined;
       const handleResize = () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        if (resizeTimeout) window.clearTimeout(resizeTimeout);
+        
+        resizeTimeout = window.setTimeout(() => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        }, 100);
       };
 
       window.addEventListener('resize', handleResize);
 
-      // Animation function
+      // Animation function with RAF control for performance
+      let animationId: number;
       const animate = () => {
-        requestAnimationFrame(animate);
+        animationId = requestAnimationFrame(animate);
 
         // Rotate infinity symbol
         infinityGroup.rotation.y += 0.002;
@@ -211,6 +219,8 @@ const ThreeCanvas = () => {
 
       // Clean up
       return () => {
+        if (animationId) cancelAnimationFrame(animationId);
+        
         if (mountRef.current && renderer.domElement) {
           try {
             mountRef.current.removeChild(renderer.domElement);
@@ -225,8 +235,7 @@ const ThreeCanvas = () => {
         // Dispose geometries and materials
         geometry1.dispose();
         geometry2.dispose();
-        material1.dispose();
-        material2.dispose();
+        goldMaterial.dispose();
         particlesGeometry.dispose();
         particlesMaterial.dispose();
         renderer.dispose();
@@ -241,7 +250,8 @@ const ThreeCanvas = () => {
   if (webGLFailed) {
     return (
       <div 
-        className="absolute inset-0 z-0 overflow-hidden bg-gradient-to-b from-iconic-dark via-iconic-slate/30 to-iconic-dark"
+        className="absolute inset-0 z-0 overflow-hidden bg-gradient-radial from-iconic-gold/20 via-iconic-dark/90 to-iconic-dark"
+        aria-hidden="true"
       />
     );
   }
@@ -251,6 +261,7 @@ const ThreeCanvas = () => {
       ref={mountRef} 
       className="absolute inset-0 z-0 overflow-hidden"
       style={{ pointerEvents: 'none' }}
+      aria-hidden="true"
     />
   );
 };

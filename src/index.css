@@ -1,68 +1,231 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 25% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 214 100% 34%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 45 100% 50%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 20% 96%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 214 100% 34% / 0.1;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 222 84% 5%;
+
+    --radius: 0.5rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 214 100% 50%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 45 100% 50%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 217 33% 18%;
+    --muted-foreground: 215 20% 65%;
+
+    --accent: 214 100% 50% / 0.1;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217 33% 18%;
+    --input: 217 33% 18%;
+    --ring: 213 27% 84%;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    @apply dark:bg-iconic-dark dark:text-white;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+
+  /* Add smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+    @apply dark;
   }
 }
 
-.card {
-  padding: 2em;
-}
+@layer components {
+  .hero-text-gradient {
+    @apply bg-gradient-to-r from-iconic-blue via-iconic-gold to-iconic-blue bg-clip-text text-transparent;
+  }
 
-.read-the-docs {
-  color: #888;
-}
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
 
-/* Custom feature card animation */
-.feature-card {
-  @apply flex flex-col items-center text-center transition-transform duration-300 ease-out transform hover:-translate-y-1;
-}
+  .container-padding {
+    @apply px-4 sm:px-6 lg:px-8;
+  }
 
-.hover-glow {
-  @apply hover:shadow-lg hover:shadow-iconic-gold/20 transition-shadow duration-300;
-}
+  .animate-on-scroll {
+    @apply opacity-0 transition-all duration-700 ease-out;
+  }
 
-/* Class for visibility animation */
-.animate-on-load {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-}
+  .animate-on-scroll.visible {
+    @apply opacity-100 transform translate-y-0;
+  }
 
-.animate-on-load.animate-fade-in {
-  opacity: 1;
-  transform: translateY(0);
-}
+  .animate-on-scroll:not(.visible) {
+    @apply transform translate-y-10;
+  }
 
-/* Ensure any accessibility-hidden elements don't interfere with screen readers */
-[aria-hidden="true"] {
-  pointer-events: none;
+  .animate-in {
+    @apply opacity-100 transform translate-x-0;
+  }
+
+  .service-card {
+    @apply bg-iconic-dark/50 p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-500 border border-iconic-slate hover:border-iconic-gold backdrop-blur-sm;
+  }
+
+  .nav-link {
+    @apply relative inline-block px-2 py-1 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-iconic-gold after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+  }
+
+  /* Advanced animations */
+  .fade-in-up {
+    @apply opacity-0 translate-y-8 transition-all duration-700 ease-out;
+  }
+
+  .fade-in-up.visible {
+    @apply opacity-100 translate-y-0;
+  }
+
+  .slide-in-right {
+    @apply opacity-0 translate-x-8 transition-all duration-700 ease-out;
+  }
+
+  .slide-in-right.visible {
+    @apply opacity-100 translate-x-0;
+  }
+
+  .slide-in-left {
+    @apply opacity-0 -translate-x-8 transition-all duration-700 ease-out;
+  }
+
+  .slide-in-left.visible {
+    @apply opacity-100 translate-x-0;
+  }
+
+  .scale-in {
+    @apply opacity-0 scale-95 transition-all duration-700 ease-out;
+  }
+
+  .scale-in.visible {
+    @apply opacity-100 scale-100;
+  }
+
+  /* Hover effects */
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .hover-glow {
+    @apply transition-all duration-300;
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+  }
+
+  .animate-on-load {
+    opacity: 0;
+    animation: fadeInUp 0.8s forwards;
+    animation-delay: var(--delay, 0s);
+    animation-fill-mode: both;
+  }
+
+  .animate-on-load.animate-fade-in {
+    opacity: 1;
+  }
+
+  /* Feature icon animation */
+  .animate-feature-icon {
+    opacity: 0;
+    animation: popIn 0.6s forwards;
+    animation-delay: var(--delay, 0s);
+  }
+
+  @keyframes popIn {
+    0% {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    60% {
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Loading animation */
+  @keyframes dash {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .animate-dash {
+    stroke-dasharray: 150;
+    stroke-dashoffset: 150;
+    animation: dash 2s ease-in-out infinite alternate;
+  }
 }

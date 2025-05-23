@@ -1,6 +1,16 @@
-
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+
+// WebGL detection utility function
+const isWebGLAvailable = () => {
+  try {
+    const canvas = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && 
+      (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
+  } catch (e) {
+    return false;
+  }
+};
 
 const ThreeCanvas = () => {
   const mountRef = useRef<HTMLDivElement>(null);
@@ -8,7 +18,7 @@ const ThreeCanvas = () => {
 
   useEffect(() => {
     // Check WebGL support before attempting to initialize
-    if (!THREE.WEBGL.isWebGLAvailable()) {
+    if (!isWebGLAvailable()) {
       console.warn("WebGL is not supported in this environment");
       setWebGLFailed(true);
       return;
@@ -244,20 +254,5 @@ const ThreeCanvas = () => {
     />
   );
 };
-
-// Add missing WEBGL detection - this is needed since we're using it above
-if (!THREE.WEBGL) {
-  THREE.WEBGL = {
-    isWebGLAvailable: function() {
-      try {
-        const canvas = document.createElement('canvas');
-        return !!(window.WebGLRenderingContext && 
-          (canvas.getContext('webgl') || canvas.getContext('experimental-webgl')));
-      } catch (e) {
-        return false;
-      }
-    }
-  };
-}
 
 export default ThreeCanvas;

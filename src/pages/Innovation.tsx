@@ -32,17 +32,19 @@ const Innovation = () => {
       observer.observe(el);
     });
 
-    // Add animation for innovation approach blocks
+    // Add animation for innovation approach blocks - with proper TypeScript typing
     const approachBlocks = document.querySelectorAll(".approach-block");
     approachBlocks.forEach((el, index) => {
-      el.style.opacity = "0";
-      el.style.transform = "translateY(20px)";
-      el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-      el.style.transitionDelay = `${index * 150}ms`;
+      // Type assertion to HTMLElement which has style property
+      const block = el as HTMLElement;
+      block.style.opacity = "0";
+      block.style.transform = "translateY(20px)";
+      block.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+      block.style.transitionDelay = `${index * 150}ms`;
       
       setTimeout(() => {
-        el.style.opacity = "1";
-        el.style.transform = "translateY(0)";
+        block.style.opacity = "1";
+        block.style.transform = "translateY(0)";
       }, 300 + (index * 150));
     });
 

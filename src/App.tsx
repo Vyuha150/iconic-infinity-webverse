@@ -17,7 +17,6 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Cookies from "./pages/Cookies";
 import LoadingScreen from "./components/LoadingScreen";
-import CustomCursor from "./components/CustomCursor";
 
 const queryClient = new QueryClient();
 
@@ -34,16 +33,15 @@ const App = () => {
       metaDescription.setAttribute("content", "ICONIC Infinity Group is driven by excellence, quality and innovation. We build customer-friendly brands across multiple verticals.");
     }
     
-    // Force dark mode and hide default cursor
+    // Force dark mode
     document.documentElement.classList.add('dark');
-    document.body.style.cursor = 'none';
     
-    // Extended loading completion to match LoadingScreen
+    // Simulate loading completion
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 4000);
+    }, 2500);
     
-    // Add enhanced animation script
+    // Add animation script for scroll reveal
     const handleScroll = () => {
       const elements = document.querySelectorAll(".animate-on-scroll");
       elements.forEach((el) => {
@@ -56,12 +54,12 @@ const App = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
+    // Initial check for elements already in viewport
     setTimeout(handleScroll, 300);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
       clearTimeout(timer);
-      document.body.style.cursor = 'auto';
     };
   }, []);
 
@@ -70,7 +68,6 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <CustomCursor />
         {isLoading && <LoadingScreen />}
         <BrowserRouter>
           <Routes>
@@ -84,6 +81,7 @@ const App = () => {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/terms" element={<Terms />} />
             <Route path="/cookies" element={<Cookies />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

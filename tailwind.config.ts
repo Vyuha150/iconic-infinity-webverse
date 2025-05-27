@@ -63,11 +63,11 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				iconic: {
-					blue: '#0047AB',  // Navy Blue
-					gold: '#FFD700',  // Gold
+					blue: '#0047AB',
+					gold: '#FFD700',
 					slate: '#1E293B',
 					light: '#F8FAFC',
-					dark: '#0F172A'   // Dark background
+					dark: '#0F172A'
 				}
 			},
 			backgroundImage: {
@@ -108,8 +108,16 @@ export default {
 					'100%': { transform: 'rotateY(360deg)' }
 				},
 				'dash': {
-					'0%': { strokeDashoffset: '150' },
+					'0%': { strokeDashoffset: '400' },
 					'100%': { strokeDashoffset: '0' }
+				},
+				'slide-up': {
+					'0%': { transform: 'translateY(100%)', opacity: '0' },
+					'100%': { transform: 'translateY(0)', opacity: '1' }
+				},
+				'progressFill': {
+					'0%': { width: '0%' },
+					'100%': { width: '100%' }
 				}
 			},
 			animation: {
@@ -120,7 +128,8 @@ export default {
 				'float': 'float 5s ease-in-out infinite',
 				'spin-slow': 'spin-slow 20s linear infinite',
 				'rotate-3d': 'rotate-3d 15s linear infinite',
-				'dash': 'dash 2s ease-in-out infinite alternate'
+				'dash': 'dash 2s ease-in-out infinite alternate',
+				'slide-up': 'slide-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards'
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],

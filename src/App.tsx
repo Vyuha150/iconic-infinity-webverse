@@ -17,6 +17,7 @@ import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Cookies from "./pages/Cookies";
 import LoadingScreen from "./components/LoadingScreen";
+import CustomCursor from "./components/CustomCursor";
 
 const queryClient = new QueryClient();
 
@@ -36,10 +37,10 @@ const App = () => {
     // Force dark mode
     document.documentElement.classList.add('dark');
     
-    // Simulate loading completion
+    // Increased loading completion time to match LoadingScreen
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2500);
+    }, 4200); // Slightly longer than LoadingScreen for smooth transition
     
     // Add animation script for scroll reveal
     const handleScroll = () => {
@@ -68,6 +69,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <CustomCursor />
         {isLoading && <LoadingScreen />}
         <BrowserRouter>
           <Routes>

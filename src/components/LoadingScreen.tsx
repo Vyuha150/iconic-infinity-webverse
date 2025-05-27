@@ -5,10 +5,10 @@ const LoadingScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading time
+    // Increased loading time for better visibility
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 4000); // Increased from 2000ms to 4000ms
 
     return () => clearTimeout(timer);
   }, []);

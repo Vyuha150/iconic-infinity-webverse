@@ -59,19 +59,19 @@ const ThreeCanvas = () => {
       
       mountRef.current.appendChild(renderer.domElement);
 
-      // Create infinity symbol geometry
+      // Create infinity symbol geometry with horizontal movement
       const createInfinityPath = () => {
         const points = [];
         const segments = 200;
         
         for (let i = 0; i <= segments; i++) {
           const t = (i / segments) * Math.PI * 2;
-          const scale = 2.5;
+          const scale = 3;
           
           // Enhanced infinity parametric equations
           const x = scale * Math.cos(t) / (1 + Math.sin(t) * Math.sin(t));
           const y = scale * Math.sin(t) * Math.cos(t) / (1 + Math.sin(t) * Math.sin(t));
-          const z = Math.sin(t * 3) * 0.15;
+          const z = Math.sin(t * 3) * 0.2;
           
           points.push(new THREE.Vector3(x, y, z));
         }
@@ -82,7 +82,7 @@ const ThreeCanvas = () => {
       const infinityPath = createInfinityPath();
 
       // Main infinity tube with premium materials
-      const tubeGeometry = new THREE.TubeGeometry(infinityPath, 200, 0.12, 20, true);
+      const tubeGeometry = new THREE.TubeGeometry(infinityPath, 200, 0.15, 20, true);
       
       // Create gradient material for infinity
       const infinityMaterial = new THREE.MeshPhysicalMaterial({
@@ -92,7 +92,7 @@ const ThreeCanvas = () => {
         clearcoat: 1.0,
         clearcoatRoughness: 0.1,
         emissive: 0x332200,
-        emissiveIntensity: 0.3,
+        emissiveIntensity: 0.4,
         transmission: 0.1,
         thickness: 0.5
       });
@@ -102,8 +102,8 @@ const ThreeCanvas = () => {
       infinityMesh.receiveShadow = true;
       scene.add(infinityMesh);
 
-      // Flowing particles system
-      const particleCount = 150;
+      // Enhanced flowing particles system
+      const particleCount = 200;
       const particleGeometry = new THREE.BufferGeometry();
       const positions = new Float32Array(particleCount * 3);
       const colors = new Float32Array(particleCount * 3);
@@ -123,7 +123,7 @@ const ThreeCanvas = () => {
         colors[i * 3 + 1] = color.g;
         colors[i * 3 + 2] = color.b;
 
-        sizes[i] = Math.random() * 0.03 + 0.02;
+        sizes[i] = Math.random() * 0.04 + 0.02;
       }
 
       particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
@@ -131,7 +131,7 @@ const ThreeCanvas = () => {
       particleGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
       const particleMaterial = new THREE.PointsMaterial({
-        size: 0.08,
+        size: 0.1,
         vertexColors: true,
         transparent: true,
         opacity: 0.9,
@@ -143,10 +143,10 @@ const ThreeCanvas = () => {
       scene.add(particles);
 
       // Enhanced lighting setup
-      const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
+      const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
       scene.add(ambientLight);
 
-      const mainLight = new THREE.DirectionalLight(0xFFD700, 1.5);
+      const mainLight = new THREE.DirectionalLight(0xFFD700, 2);
       mainLight.position.set(5, 5, 5);
       mainLight.castShadow = true;
       mainLight.shadow.mapSize.width = 2048;
@@ -154,23 +154,23 @@ const ThreeCanvas = () => {
       scene.add(mainLight);
 
       // Dynamic accent lights
-      const blueLight = new THREE.PointLight(0x0047AB, 3, 15);
+      const blueLight = new THREE.PointLight(0x0047AB, 4, 20);
       blueLight.position.set(-4, 0, 2);
       scene.add(blueLight);
 
-      const goldLight = new THREE.PointLight(0xFFD700, 3, 15);
+      const goldLight = new THREE.PointLight(0xFFD700, 4, 20);
       goldLight.position.set(4, 0, 2);
       scene.add(goldLight);
 
       // Rim lighting for depth
-      const rimLight = new THREE.DirectionalLight(0x0066FF, 0.8);
+      const rimLight = new THREE.DirectionalLight(0x0066FF, 1);
       rimLight.position.set(0, 0, -8);
       scene.add(rimLight);
 
       // Camera positioning
-      camera.position.set(0, 0, 7);
+      camera.position.set(0, 0, 8);
 
-      // Smooth mouse interaction with throttling
+      // Enhanced mouse interaction
       let mouseX = 0;
       let mouseY = 0;
       let targetRotationX = 0;
@@ -180,23 +180,13 @@ const ThreeCanvas = () => {
         mouseX = (event.clientX / window.innerWidth) * 2 - 1;
         mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
         
-        targetRotationY = mouseX * 0.4;
-        targetRotationX = mouseY * 0.3;
+        targetRotationY = mouseX * 0.3;
+        targetRotationX = mouseY * 0.2;
       };
 
-      // Throttled mouse move handler
-      let mouseMoveTimeout: number;
-      const throttledMouseMove = (event: MouseEvent) => {
-        if (mouseMoveTimeout) return;
-        mouseMoveTimeout = window.setTimeout(() => {
-          handleMouseMove(event);
-          mouseMoveTimeout = 0;
-        }, 16); // ~60fps
-      };
+      window.addEventListener('mousemove', handleMouseMove);
 
-      window.addEventListener('mousemove', throttledMouseMove);
-
-      // Optimized resize handler
+      // Resize handler
       const handleResize = () => {
         if (!camera || !renderer) return;
         
@@ -205,16 +195,7 @@ const ThreeCanvas = () => {
         renderer.setSize(window.innerWidth, window.innerHeight);
       };
 
-      let resizeTimeout: number;
-      const throttledResize = () => {
-        if (resizeTimeout) return;
-        resizeTimeout = window.setTimeout(() => {
-          handleResize();
-          resizeTimeout = 0;
-        }, 100);
-      };
-
-      window.addEventListener('resize', throttledResize);
+      window.addEventListener('resize', handleResize);
 
       // High-performance animation loop
       const clock = new THREE.Clock();
@@ -226,37 +207,40 @@ const ThreeCanvas = () => {
         const delta = clock.getDelta();
         time += delta;
 
-        // Smooth rotation interpolation
-        infinityMesh.rotation.y += (targetRotationY - infinityMesh.rotation.y) * 0.03;
-        infinityMesh.rotation.x += (targetRotationX - infinityMesh.rotation.x) * 0.03;
+        // Horizontal movement animation
+        infinityMesh.position.x = Math.sin(time * 0.5) * 0.5;
+
+        // Smooth rotation interpolation with mouse interaction
+        infinityMesh.rotation.y += (targetRotationY - infinityMesh.rotation.y) * 0.02;
+        infinityMesh.rotation.x += (targetRotationX - infinityMesh.rotation.x) * 0.02;
 
         // Continuous gentle rotation
-        infinityMesh.rotation.z += delta * 0.2;
+        infinityMesh.rotation.z += delta * 0.15;
 
         // Animate particles along path
         const particlePositions = particles.geometry.attributes.position.array as Float32Array;
         for (let i = 0; i < particleCount; i++) {
-          const t = (time * 0.3 + (i / particleCount)) % 1;
+          const t = (time * 0.4 + (i / particleCount)) % 1;
           const point = infinityPath.getPoint(t);
           
-          // Add slight random movement
-          const offset = Math.sin(time * 2 + i) * 0.05;
+          // Add slight random movement and follow infinity mesh
+          const offset = Math.sin(time * 3 + i) * 0.08;
           
-          particlePositions[i * 3] = point.x + offset;
+          particlePositions[i * 3] = point.x + offset + infinityMesh.position.x;
           particlePositions[i * 3 + 1] = point.y + offset * 0.5;
           particlePositions[i * 3 + 2] = point.z + offset * 0.3;
         }
         particles.geometry.attributes.position.needsUpdate = true;
 
         // Dynamic lighting animation
-        blueLight.intensity = 2 + Math.sin(time * 1.5) * 0.8;
-        goldLight.intensity = 2 + Math.cos(time * 1.8) * 0.8;
+        blueLight.intensity = 3 + Math.sin(time * 2) * 1;
+        goldLight.intensity = 3 + Math.cos(time * 2.2) * 1;
         
-        blueLight.position.x = Math.cos(time * 0.8) * 5;
-        goldLight.position.x = Math.sin(time * 0.6) * 5;
+        blueLight.position.x = Math.cos(time * 1.2) * 6 + infinityMesh.position.x;
+        goldLight.position.x = Math.sin(time * 1.0) * 6 + infinityMesh.position.x;
 
         // Material animation
-        infinityMaterial.emissiveIntensity = 0.2 + Math.sin(time * 0.7) * 0.2;
+        infinityMaterial.emissiveIntensity = 0.3 + Math.sin(time * 1.5) * 0.3;
 
         renderer.render(scene, camera);
       };
@@ -269,15 +253,9 @@ const ThreeCanvas = () => {
           cancelAnimationFrame(animationRef.current);
         }
 
-        // Remove event listeners
-        window.removeEventListener('mousemove', throttledMouseMove);
-        window.removeEventListener('resize', throttledResize);
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('resize', handleResize);
 
-        // Clean up timeouts
-        if (mouseMoveTimeout) clearTimeout(mouseMoveTimeout);
-        if (resizeTimeout) clearTimeout(resizeTimeout);
-
-        // Dispose of Three.js resources
         if (mountRef.current && renderer.domElement && mountRef.current.contains(renderer.domElement)) {
           mountRef.current.removeChild(renderer.domElement);
         }
@@ -288,7 +266,6 @@ const ThreeCanvas = () => {
         particleMaterial.dispose();
         renderer.dispose();
 
-        // Clear refs
         sceneRef.current = undefined;
         rendererRef.current = undefined;
       };
@@ -304,7 +281,7 @@ const ThreeCanvas = () => {
     return (
       <div className="absolute inset-0 z-0 overflow-hidden bg-gradient-to-b from-iconic-dark via-iconic-blue/10 to-iconic-dark">
         <div className="absolute inset-0 flex items-center justify-center">
-          <svg className="w-64 h-32 opacity-30" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+          <svg className="w-64 h-32 opacity-30 animate-float" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M50,50 C50,20 70,20 80,35 C90,50 110,50 120,35 C130,20 150,20 150,50 C150,80 130,80 120,65 C110,50 90,50 80,65 C70,80 50,80 50,50 Z"
               fill="none"

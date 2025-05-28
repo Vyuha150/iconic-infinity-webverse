@@ -148,10 +148,11 @@ const InnovationSection = () => {
           {innovations.map((innovation, index) => (
             <div
               key={index}
-              className="framer-s1zh1p-container animate-on-scroll opacity-0 transform translate-x-8 transition-all duration-700 ease-out"
+              className={`framer-s1zh1p-container animate-on-scroll opacity-0 transition-all duration-700 ease-out ${
+                index % 2 === 0 ? 'translate-x-[-32px]' : 'translate-x-[32px]'
+              }`}
               style={{ 
-                animationDelay: `${index * 150}ms`,
-                '--tw-translate-x': index % 2 === 0 ? '-32px' : '32px'
+                animationDelay: `${index * 150}ms`
               }}
             >
               <Card

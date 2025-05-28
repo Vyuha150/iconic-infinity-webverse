@@ -219,17 +219,19 @@ const InnovationSection = () => {
         </div>
       </div>
 
-      <style jsx>{`
-        .innovation-card.animate-in {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        
-        .animate-on-scroll.visible .innovation-card {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      `}</style>
+      <style>
+        {`
+          .innovation-card.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+          }
+          
+          .animate-on-scroll.visible .innovation-card {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        `}
+      </style>
     </section>
   );
 };

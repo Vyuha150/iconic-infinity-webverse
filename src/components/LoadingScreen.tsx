@@ -8,7 +8,7 @@ const LoadingScreen = () => {
     // Increased loading time for better visibility
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 4000); // Increased from 2000ms to 4000ms
+    }, 5500); // Increased from 4000ms to 5500ms
 
     return () => clearTimeout(timer);
   }, []);

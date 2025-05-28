@@ -40,7 +40,7 @@ const App = () => {
     // Increased loading completion time to match LoadingScreen
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 4200); // Slightly longer than LoadingScreen for smooth transition
+    }, 5700); // Increased to match LoadingScreen timing
     
     // Add animation script for scroll reveal
     const handleScroll = () => {

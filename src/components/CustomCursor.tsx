@@ -32,13 +32,14 @@ const CustomCursor = () => {
 
   return (
     <div
-      className={`fixed w-4 h-4 bg-iconic-gold rounded-full pointer-events-none z-50 transition-opacity duration-300 mix-blend-difference ${
-        isVisible ? 'opacity-100' : 'opacity-0'
+      className={`fixed w-3 h-3 bg-yellow-400 rounded-full pointer-events-none z-50 transition-all duration-150 ease-out ${
+        isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
       }`}
       style={{
-        left: mousePosition.x - 8,
-        top: mousePosition.y - 8,
+        left: mousePosition.x - 6,
+        top: mousePosition.y - 6,
         transform: 'translate(0, 0)',
+        boxShadow: '0 0 10px rgba(255, 255, 0, 0.3)',
       }}
     />
   );

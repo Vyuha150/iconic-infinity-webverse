@@ -36,7 +36,7 @@ const IconicLogo3D = () => {
       sceneRef.current = scene;
       
       const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
-      camera.position.set(0, 0, 5);
+      camera.position.set(0, 0, 8);
 
       const renderer = new THREE.WebGLRenderer({
         alpha: true,
@@ -55,76 +55,79 @@ const IconicLogo3D = () => {
 
       container.appendChild(renderer.domElement);
 
-      // Create 3D ICONIC logo group
+      // Create 3D ICONIC logo group based on the uploaded image
       const logoGroup = new THREE.Group();
       logoGroupRef.current = logoGroup;
 
-      // Main circular ring (outer)
-      const ringGeometry = new THREE.TorusGeometry(1.2, 0.1, 16, 100);
-      const ringMaterial = new THREE.MeshPhysicalMaterial({
-        color: 0xFFD700,
-        metalness: 0.8,
-        roughness: 0.2,
-        clearcoat: 1.0,
-        clearcoatRoughness: 0.1,
-        emissive: 0x332200,
-        emissiveIntensity: 0.3
-      });
-      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
-      ring.rotation.x = Math.PI / 2;
-      logoGroup.add(ring);
-
-      // Inner oval elements
-      const ovalGeometry = new THREE.TorusGeometry(0.6, 0.08, 12, 50);
-      const ovalMaterial = new THREE.MeshPhysicalMaterial({
-        color: 0xFFD700,
-        metalness: 0.7,
-        roughness: 0.3,
-        clearcoat: 0.8,
-        clearcoatRoughness: 0.2
-      });
-      
-      const leftOval = new THREE.Mesh(ovalGeometry, ovalMaterial);
-      leftOval.rotation.x = Math.PI / 2;
-      leftOval.position.x = -0.3;
-      leftOval.scale.set(0.8, 1, 0.6);
-      logoGroup.add(leftOval);
-
-      const rightOval = new THREE.Mesh(ovalGeometry, ovalMaterial);
-      rightOval.rotation.x = Math.PI / 2;
-      rightOval.position.x = 0.3;
-      rightOval.scale.set(0.8, 1, 0.6);
-      logoGroup.add(rightOval);
-
-      // Central "I" pillar
-      const pillarGeometry = new THREE.CylinderGeometry(0.08, 0.08, 1.5, 16);
-      const pillarMaterial = new THREE.MeshPhysicalMaterial({
+      // Main outer ring (circular border)
+      const outerRingGeometry = new THREE.TorusGeometry(2.0, 0.15, 16, 100);
+      const goldMaterial = new THREE.MeshPhysicalMaterial({
         color: 0xFFD700,
         metalness: 0.9,
         roughness: 0.1,
         clearcoat: 1.0,
         clearcoatRoughness: 0.05,
         emissive: 0x332200,
-        emissiveIntensity: 0.4
+        emissiveIntensity: 0.3
       });
-      const pillar = new THREE.Mesh(pillarGeometry, pillarMaterial);
+      const outerRing = new THREE.Mesh(outerRingGeometry, goldMaterial);
+      logoGroup.add(outerRing);
+
+      // Inner oval rings (the two infinity-like ovals)
+      const ovalGeometry = new THREE.TorusGeometry(0.8, 0.1, 12, 50);
+      
+      // Left oval
+      const leftOval = new THREE.Mesh(ovalGeometry, goldMaterial.clone());
+      leftOval.position.set(-0.5, 0, 0);
+      leftOval.rotation.z = Math.PI / 6; // Slight rotation
+      leftOval.scale.set(1.2, 0.8, 1);
+      logoGroup.add(leftOval);
+
+      // Right oval
+      const rightOval = new THREE.Mesh(ovalGeometry, goldMaterial.clone());
+      rightOval.position.set(0.5, 0, 0);
+      rightOval.rotation.z = -Math.PI / 6; // Opposite rotation
+      rightOval.scale.set(1.2, 0.8, 1);
+      logoGroup.add(rightOval);
+
+      // Central "I" pillar
+      const pillarGeometry = new THREE.CylinderGeometry(0.12, 0.12, 2.5, 16);
+      const pillar = new THREE.Mesh(pillarGeometry, goldMaterial.clone());
       logoGroup.add(pillar);
 
-      // Top cap
-      const capGeometry = new THREE.CylinderGeometry(0.2, 0.15, 0.15, 16);
-      const cap = new THREE.Mesh(capGeometry, pillarMaterial);
-      cap.position.y = 0.8;
-      logoGroup.add(cap);
+      // Top decorative element
+      const topGeometry = new THREE.CylinderGeometry(0.25, 0.18, 0.2, 16);
+      const topElement = new THREE.Mesh(topGeometry, goldMaterial.clone());
+      topElement.position.y = 1.35;
+      logoGroup.add(topElement);
 
-      // Base
-      const baseGeometry = new THREE.CylinderGeometry(0.15, 0.2, 0.15, 16);
-      const base = new THREE.Mesh(baseGeometry, pillarMaterial);
-      base.position.y = -0.8;
-      logoGroup.add(base);
+      // Bottom decorative element
+      const bottomGeometry = new THREE.CylinderGeometry(0.18, 0.25, 0.2, 16);
+      const bottomElement = new THREE.Mesh(bottomGeometry, goldMaterial.clone());
+      bottomElement.position.y = -1.35;
+      logoGroup.add(bottomElement);
+
+      // Add subtle connecting elements
+      const connectGeometry = new THREE.SphereGeometry(0.08, 16, 16);
+      for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        const connector = new THREE.Mesh(connectGeometry, goldMaterial.clone());
+        connector.position.set(
+          Math.cos(angle) * 1.85,
+          Math.sin(angle) * 1.85,
+          0
+        );
+        logoGroup.add(connector);
+      }
+
+      // Position the logo to face the user
+      logoGroup.rotation.x = 0;
+      logoGroup.rotation.y = 0;
+      logoGroup.rotation.z = 0;
 
       scene.add(logoGroup);
 
-      // Enhanced lighting similar to Resend.com
+      // Enhanced lighting setup
       const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
       scene.add(ambientLight);
 
@@ -134,12 +137,16 @@ const IconicLogo3D = () => {
       scene.add(directionalLight);
 
       const pointLight1 = new THREE.PointLight(0x4F46E5, 1.2, 10);
-      pointLight1.position.set(-3, 2, 3);
+      pointLight1.position.set(-4, 3, 4);
       scene.add(pointLight1);
 
       const pointLight2 = new THREE.PointLight(0xFFD700, 1.2, 10);
-      pointLight2.position.set(3, -2, 3);
+      pointLight2.position.set(4, -3, 4);
       scene.add(pointLight2);
+
+      const rimLight = new THREE.PointLight(0xFFFFFF, 0.8, 15);
+      rimLight.position.set(0, 0, -5);
+      scene.add(rimLight);
 
       // Mouse interaction
       const handleMouseMove = (event: MouseEvent) => {
@@ -173,18 +180,21 @@ const IconicLogo3D = () => {
         const elapsedTime = clock.getElapsedTime();
 
         if (logoGroupRef.current) {
-          // Smooth mouse interaction
-          const targetRotationY = mouseRef.current.x * 0.4;
-          const targetRotationX = mouseRef.current.y * 0.3;
+          // Smooth mouse interaction - more responsive
+          const targetRotationY = mouseRef.current.x * 0.5;
+          const targetRotationX = mouseRef.current.y * 0.4;
           
-          logoGroupRef.current.rotation.y += (targetRotationY - logoGroupRef.current.rotation.y) * 0.05;
-          logoGroupRef.current.rotation.x += (targetRotationX - logoGroupRef.current.rotation.x) * 0.05;
+          logoGroupRef.current.rotation.y += (targetRotationY - logoGroupRef.current.rotation.y) * 0.08;
+          logoGroupRef.current.rotation.x += (targetRotationX - logoGroupRef.current.rotation.x) * 0.08;
           
           // Gentle auto-rotation when not interacting
-          logoGroupRef.current.rotation.y += 0.003;
+          if (Math.abs(mouseRef.current.x) < 0.1 && Math.abs(mouseRef.current.y) < 0.1) {
+            logoGroupRef.current.rotation.y += 0.002;
+          }
           
           // Subtle floating motion
-          logoGroupRef.current.position.y = Math.sin(elapsedTime * 0.8) * 0.1;
+          logoGroupRef.current.position.y = Math.sin(elapsedTime * 1.2) * 0.1;
+          logoGroupRef.current.position.z = Math.cos(elapsedTime * 0.8) * 0.05;
         }
 
         // Dynamic lighting
@@ -208,15 +218,14 @@ const IconicLogo3D = () => {
           container.removeChild(renderer.domElement);
         }
 
-        // Dispose of geometries and materials
-        ringGeometry.dispose();
-        ringMaterial.dispose();
+        // Dispose of all geometries and materials
+        outerRingGeometry.dispose();
         ovalGeometry.dispose();
-        ovalMaterial.dispose();
         pillarGeometry.dispose();
-        pillarMaterial.dispose();
-        capGeometry.dispose();
-        baseGeometry.dispose();
+        topGeometry.dispose();
+        bottomGeometry.dispose();
+        connectGeometry.dispose();
+        goldMaterial.dispose();
         renderer.dispose();
       };
 
@@ -232,8 +241,8 @@ const IconicLogo3D = () => {
         <div className="w-32 h-32 bg-gradient-to-br from-iconic-blue to-iconic-gold rounded-full opacity-30 animate-pulse flex items-center justify-center">
           <span className="text-white font-bold text-2xl">I</span>
         </div>
-      </div>
-    );
+      );
+    }
   }
 
   return (

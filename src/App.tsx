@@ -41,7 +41,7 @@ const App = () => {
     // Increased loading completion time to match LoadingScreen
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 5700); // Increased to match LoadingScreen timing
+    }, 8200); // Increased to match LoadingScreen timing
     
     // Add animation script for scroll reveal
     const handleScroll = () => {

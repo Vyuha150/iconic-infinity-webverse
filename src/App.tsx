@@ -18,6 +18,7 @@ import Terms from "./pages/Terms";
 import Cookies from "./pages/Cookies";
 import LoadingScreen from "./components/LoadingScreen";
 import CustomCursor from "./components/CustomCursor";
+import SparklesBackground from "./components/SparklesBackground";
 
 const queryClient = new QueryClient();
 
@@ -70,6 +71,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <CustomCursor />
+        <SparklesBackground />
         {isLoading && <LoadingScreen />}
         <BrowserRouter>
           <Routes>

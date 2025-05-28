@@ -241,8 +241,8 @@ const IconicLogo3D = () => {
         <div className="w-32 h-32 bg-gradient-to-br from-iconic-blue to-iconic-gold rounded-full opacity-30 animate-pulse flex items-center justify-center">
           <span className="text-white font-bold text-2xl">I</span>
         </div>
-      );
-    }
+      </div>
+    );
   }
 
   return (

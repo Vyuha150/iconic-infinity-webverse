@@ -108,11 +108,24 @@
   }
 
   .animate-on-scroll.visible {
-    @apply opacity-100 transform translate-y-0;
+    @apply opacity-100 transform translate-y-0 translate-x-0;
   }
 
   .animate-on-scroll:not(.visible) {
     @apply transform translate-y-10;
+  }
+
+  /* Framer-style sliding animation */
+  .framer-s1zh1p-container {
+    @apply transition-all duration-700 ease-out;
+  }
+
+  .framer-s1zh1p-container.animate-on-scroll.visible {
+    @apply opacity-100 transform translate-x-0;
+  }
+
+  .framer-s1zh1p-container.animate-on-scroll:not(.visible) {
+    @apply opacity-0;
   }
 
   .animate-in {

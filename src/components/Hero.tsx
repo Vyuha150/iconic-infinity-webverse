@@ -38,7 +38,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-white dark:bg-iconic-dark overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center bg-white dark:bg-iconic-dark overflow-hidden pt-16">
       {/* Subtle background pattern */}
       <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-iconic-dark dark:via-iconic-slate/20 dark:to-iconic-dark">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.05),transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_40%,rgba(255,215,0,0.05),transparent_50%)]"></div>
@@ -50,7 +50,7 @@ const Hero = () => {
           {/* Left Column - Content */}
           <div className="space-y-8">
             {/* Main Heading */}
-            <div className="space-y-6 text-center lg:text-left">
+            <div className="space-y-6 text-center">
               <h1 className="opacity-0 animate-on-load text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.1]">
                 <span className="bg-gradient-to-r from-iconic-blue via-iconic-gold to-iconic-blue bg-clip-text text-transparent">
                   ICONIC Infinity Group
@@ -60,13 +60,13 @@ const Hero = () => {
                 </span>
               </h1>
               
-              <p className="opacity-0 animate-on-load text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              <p className="opacity-0 animate-on-load text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto">
                 ICONIC Infinity Group delivers excellence, quality and innovation across multiple verticals. We build brands that customers love and trust.
               </p>
             </div>
 
             {/* CTA Buttons */}
-            <div className="opacity-0 animate-on-load flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <div className="opacity-0 animate-on-load flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 asChild
                 size="lg" 
@@ -82,22 +82,6 @@ const Hero = () => {
               >
                 <Link to="/about">Learn More</Link>
               </Button>
-            </div>
-
-            {/* Stats */}
-            <div className="opacity-0 animate-on-load grid grid-cols-3 gap-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-              <div className="text-center lg:text-left">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">3+</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Active Verticals</div>
-              </div>
-              <div className="text-center lg:text-left">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">100%</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Quality Assurance</div>
-              </div>
-              <div className="text-center lg:text-left">
-                <div className="text-2xl font-bold text-gray-900 dark:text-white">24/7</div>
-                <div className="text-sm text-gray-600 dark:text-gray-400">Customer Support</div>
-              </div>
             </div>
           </div>
 

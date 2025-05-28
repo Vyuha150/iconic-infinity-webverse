@@ -102,7 +102,7 @@ const InnovationSection = () => {
   ];
 
   useEffect(() => {
-    // Animation for on-scroll reveal
+    // Animation for on-scroll reveal with sliding effect
     const observerOptions = {
       threshold: 0.1,
       rootMargin: "0px 0px -50px 0px",
@@ -143,46 +143,54 @@ const InnovationSection = () => {
           </p>
         </div>
 
-        {/* Cards Grid - Similar to Umbrel's superpowers section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 animate-on-scroll">
+        {/* Cards Grid with sliding animations */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           {innovations.map((innovation, index) => (
-            <Card
+            <div
               key={index}
-              className={`group relative overflow-hidden border-0 bg-white/50 dark:bg-iconic-slate/50 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-iconic-blue/20 ${
-                hoveredCard === index
-                  ? "bg-gradient-to-br from-iconic-blue/5 to-iconic-gold/5 dark:from-iconic-blue/10 dark:to-iconic-gold/10"
-                  : ""
-              }`}
-              onMouseEnter={() => setHoveredCard(index)}
-              onMouseLeave={() => setHoveredCard(null)}
+              className="framer-s1zh1p-container animate-on-scroll opacity-0 transform translate-x-8 transition-all duration-700 ease-out"
+              style={{ 
+                animationDelay: `${index * 150}ms`,
+                '--tw-translate-x': index % 2 === 0 ? '-32px' : '32px'
+              }}
             >
-              {/* Subtle gradient border effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-iconic-blue/20 via-transparent to-iconic-gold/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
-              
-              <CardHeader className="pb-4">
-                <div className="flex items-center space-x-4">
-                  <div className={`p-3 rounded-xl transition-all duration-300 ${
-                    hoveredCard === index
-                      ? "bg-iconic-blue/10 scale-110"
-                      : "bg-gray-100 dark:bg-iconic-slate/70"
-                  }`}>
-                    {innovation.icon}
+              <Card
+                className={`group relative overflow-hidden border-0 bg-white/50 dark:bg-iconic-slate/50 backdrop-blur-sm transition-all duration-500 hover:scale-105 hover:shadow-2xl hover:shadow-iconic-blue/20 h-full ${
+                  hoveredCard === index
+                    ? "bg-gradient-to-br from-iconic-blue/5 to-iconic-gold/5 dark:from-iconic-blue/10 dark:to-iconic-gold/10"
+                    : ""
+                }`}
+                onMouseEnter={() => setHoveredCard(index)}
+                onMouseLeave={() => setHoveredCard(null)}
+              >
+                {/* Subtle gradient border effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-iconic-blue/20 via-transparent to-iconic-gold/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg"></div>
+                
+                <CardHeader className="pb-4">
+                  <div className="flex items-center space-x-4">
+                    <div className={`p-3 rounded-xl transition-all duration-300 ${
+                      hoveredCard === index
+                        ? "bg-iconic-blue/10 scale-110"
+                        : "bg-gray-100 dark:bg-iconic-slate/70"
+                    }`}>
+                      {innovation.icon}
+                    </div>
+                    <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-iconic-blue transition-colors duration-300">
+                      {innovation.title}
+                    </CardTitle>
                   </div>
-                  <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-iconic-blue transition-colors duration-300">
-                    {innovation.title}
-                  </CardTitle>
-                </div>
-              </CardHeader>
-              
-              <CardContent className="pt-0">
-                <CardDescription className="text-gray-600 dark:text-gray-400 leading-relaxed text-base">
-                  {innovation.description}
-                </CardDescription>
-              </CardContent>
+                </CardHeader>
+                
+                <CardContent className="pt-0">
+                  <CardDescription className="text-gray-600 dark:text-gray-400 leading-relaxed text-base">
+                    {innovation.description}
+                  </CardDescription>
+                </CardContent>
 
-              {/* Decorative element */}
-              <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-iconic-blue to-iconic-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
-            </Card>
+                {/* Decorative element */}
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-iconic-blue to-iconic-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+              </Card>
+            </div>
           ))}
         </div>
 

@@ -50,15 +50,15 @@ const Hero = () => {
           {/* Left Column - Content */}
           <div className="space-y-8">
             {/* Badge */}
-            <div className="opacity-0 animate-on-load">
+            <div className="opacity-0 animate-on-load flex justify-center lg:justify-start">
               <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-iconic-blue/10 text-iconic-blue border border-iconic-blue/20 backdrop-blur-sm">
                 ✨ Face of the Future
               </span>
             </div>
 
             {/* Main Heading */}
-            <div className="space-y-6">
-              <h1 className="opacity-0 animate-on-load text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.1]">
+            <div className="space-y-6 text-center lg:text-left">
+              <h1 className="opacity-0 animate-on-load text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.1]">
                 The best way to build
                 <span className="block bg-gradient-to-r from-iconic-blue via-iconic-gold to-iconic-blue bg-clip-text text-transparent">
                   customer-friendly
@@ -66,13 +66,13 @@ const Hero = () => {
                 brands
               </h1>
               
-              <p className="opacity-0 animate-on-load text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
+              <p className="opacity-0 animate-on-load text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 ICONIC Infinity Group delivers excellence, quality and innovation across multiple verticals. We build brands that customers love and trust.
               </p>
             </div>
 
             {/* CTA Buttons */}
-            <div className="opacity-0 animate-on-load flex flex-col sm:flex-row gap-4">
+            <div className="opacity-0 animate-on-load flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button 
                 asChild
                 size="lg" 
@@ -92,22 +92,22 @@ const Hero = () => {
 
             {/* Stats */}
             <div className="opacity-0 animate-on-load grid grid-cols-3 gap-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-              <div>
+              <div className="text-center lg:text-left">
                 <div className="text-2xl font-bold text-gray-900 dark:text-white">3+</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Active Verticals</div>
               </div>
-              <div>
+              <div className="text-center lg:text-left">
                 <div className="text-2xl font-bold text-gray-900 dark:text-white">100%</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Quality Assurance</div>
               </div>
-              <div>
+              <div className="text-center lg:text-left">
                 <div className="text-2xl font-bold text-gray-900 dark:text-white">24/7</div>
                 <div className="text-sm text-gray-600 dark:text-gray-400">Customer Support</div>
               </div>
             </div>
           </div>
 
-          {/* Right Column - 3D Geometric Shape */}
+          {/* Right Column - 3D Element */}
           <div className="flex justify-center lg:justify-end">
             <div className="relative w-full max-w-lg h-[600px] opacity-0 animate-on-load">
               <GeometricCanvas />

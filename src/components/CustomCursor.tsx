@@ -23,23 +23,28 @@ const CustomCursor = () => {
     document.addEventListener('mouseleave', handleMouseLeave);
     document.addEventListener('mouseenter', handleMouseEnter);
 
+    // Hide default cursor
+    document.body.style.cursor = 'none';
+
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseleave', handleMouseLeave);
       document.removeEventListener('mouseenter', handleMouseEnter);
+      document.body.style.cursor = 'auto';
     };
   }, []);
 
   return (
     <div
-      className={`fixed w-3 h-3 bg-yellow-400 rounded-full pointer-events-none z-50 transition-all duration-150 ease-out ${
-        isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-75'
+      className={`fixed w-4 h-4 bg-yellow-400 rounded-full pointer-events-none z-50 transition-opacity duration-200 ease-out ${
+        isVisible ? 'opacity-100' : 'opacity-0'
       }`}
       style={{
-        left: mousePosition.x - 6,
-        top: mousePosition.y - 6,
-        transform: 'translate(0, 0)',
-        boxShadow: '0 0 10px rgba(255, 255, 0, 0.3)',
+        left: mousePosition.x - 8,
+        top: mousePosition.y - 8,
+        transform: 'translate3d(0, 0, 0)',
+        boxShadow: '0 0 15px rgba(255, 212, 0, 0.6)',
+        willChange: 'transform',
       }}
     />
   );

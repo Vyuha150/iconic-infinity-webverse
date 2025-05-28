@@ -44,9 +44,13 @@ const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-iconic-blue to-iconic-gold flex items-center justify-center">
-              <span className="text-white font-bold text-xl">I</span>
+          <Link to="/" className="flex items-center space-x-3">
+            <div className="w-12 h-12 rounded-full overflow-hidden bg-white p-1">
+              <img 
+                src="/lovable-uploads/78fefb48-540c-4c98-95cf-d3372e6a8d82.png" 
+                alt="ICONIC Infinity Group Logo" 
+                className="w-full h-full object-contain"
+              />
             </div>
             <span className="text-xl font-bold bg-gradient-to-r from-iconic-blue to-iconic-gold bg-clip-text text-transparent">
               ICONIC

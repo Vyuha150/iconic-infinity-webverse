@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import GeometricCanvas from "./GeometricCanvas";
+import IconicLogo3D from "./IconicLogo3D";
 
 const Hero = () => {
   useEffect(() => {
@@ -49,21 +49,15 @@ const Hero = () => {
           
           {/* Left Column - Content */}
           <div className="space-y-8">
-            {/* Badge */}
-            <div className="opacity-0 animate-on-load flex justify-center lg:justify-start">
-              <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-iconic-blue/10 text-iconic-blue border border-iconic-blue/20 backdrop-blur-sm">
-                ✨ Face of the Future
-              </span>
-            </div>
-
             {/* Main Heading */}
             <div className="space-y-6 text-center lg:text-left">
               <h1 className="opacity-0 animate-on-load text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.1]">
-                The best way to build
-                <span className="block bg-gradient-to-r from-iconic-blue via-iconic-gold to-iconic-blue bg-clip-text text-transparent">
-                  customer-friendly
+                <span className="bg-gradient-to-r from-iconic-blue via-iconic-gold to-iconic-blue bg-clip-text text-transparent">
+                  ICONIC Infinity Group
                 </span>
-                brands
+                <span className="block text-3xl sm:text-4xl lg:text-5xl mt-2">
+                  Face of the Future
+                </span>
               </h1>
               
               <p className="opacity-0 animate-on-load text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mx-auto lg:mx-0">
@@ -107,10 +101,10 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right Column - 3D Element */}
+          {/* Right Column - 3D ICONIC Logo */}
           <div className="flex justify-center lg:justify-end">
             <div className="relative w-full max-w-lg h-[600px] opacity-0 animate-on-load">
-              <GeometricCanvas />
+              <IconicLogo3D />
             </div>
           </div>
         </div>

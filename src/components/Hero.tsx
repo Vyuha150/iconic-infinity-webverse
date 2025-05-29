@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import IconicLogo3D from "./IconicLogo3D";
+import RubiksCube from "./RubiksCube";
 
 const Hero = () => {
   useEffect(() => {
@@ -85,10 +85,10 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right Column - 3D ICONIC Logo */}
+          {/* Right Column - Animated Rubik's Cube */}
           <div className="flex justify-center lg:justify-end">
             <div className="relative w-full max-w-lg h-[600px] opacity-0 animate-on-load">
-              <IconicLogo3D />
+              <RubiksCube />
             </div>
           </div>
         </div>

@@ -115,16 +115,6 @@
     @apply transform translate-y-10;
   }
 
-  /* Subtle Gold Border Text Effect */
-  .gold-intrusion-text {
-    text-shadow: 
-      -1px -1px 0 rgba(255, 215, 0, 0.4),
-      1px -1px 0 rgba(255, 215, 0, 0.4),
-      -1px 1px 0 rgba(255, 215, 0, 0.4),
-      1px 1px 0 rgba(255, 215, 0, 0.4),
-      0 0 3px rgba(255, 215, 0, 0.2);
-  }
-
   /* Framer-style sliding animation */
   .framer-s1zh1p-container {
     @apply transition-all duration-700 ease-out;

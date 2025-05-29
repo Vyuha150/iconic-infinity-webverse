@@ -174,15 +174,15 @@ const Hero = () => {
           
           {/* Left Column - Content */}
           <div className="space-y-8">
-            {/* Main Heading - Single Line with Gold Border Effect */}
+            {/* Main Heading - Single Line */}
             <div className="space-y-6 text-center lg:text-left">
-              <h1 className="opacity-0 animate-on-load text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight leading-tight whitespace-nowrap text-iconic-blue gold-intrusion-text">
+              <h1 className="opacity-0 animate-on-load text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight leading-tight whitespace-nowrap text-iconic-blue">
                 ICONIC Infinity Group
               </h1>
               
               {/* Enhanced Content with better hierarchy */}
               <div className="opacity-0 animate-on-load space-y-4">
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white leading-tight gold-intrusion-text">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white leading-tight">
                   Face of the Future
                 </h2>
                 

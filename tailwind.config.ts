@@ -68,7 +68,7 @@ export default {
 					gold: '#FFD700',  // Gold
 					slate: '#1E293B',
 					light: '#F8FAFC',
-					dark: '#0F172A'   // Dark background
+					dark: '#0B1426'   // Darker blue-black background
 				}
 			},
 			backgroundImage: {

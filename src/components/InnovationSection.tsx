@@ -150,7 +150,7 @@ const InnovationSection = () => {
           </p>
         </div>
 
-        {/* Cards Grid with Yellow Glow animations */}
+        {/* Cards Grid with Umbrel-style animations */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 animate-on-scroll">
           {innovations.map((innovation, index) => (
             <div
@@ -161,32 +161,32 @@ const InnovationSection = () => {
               }}
             >
               <Card
-                className={`group relative overflow-hidden border border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-iconic-slate/80 backdrop-blur-sm transition-all duration-500 ease-out hover:border-yellow-400/50 hover:shadow-2xl h-full transform hover:-translate-y-2 hover:scale-[1.02] ${
+                className={`group relative overflow-hidden border border-gray-200/50 dark:border-gray-700/50 bg-white/80 dark:bg-iconic-slate/80 backdrop-blur-sm transition-all duration-500 ease-out hover:border-iconic-blue/30 hover:shadow-2xl hover:shadow-iconic-blue/10 h-full transform hover:-translate-y-2 hover:scale-[1.02] ${
                   hoveredCard === index
-                    ? "bg-gradient-to-br from-yellow-400/5 to-yellow-400/5 dark:from-yellow-400/10 dark:to-yellow-400/10 border-yellow-400/40"
+                    ? "bg-gradient-to-br from-iconic-blue/5 to-iconic-gold/5 dark:from-iconic-blue/10 dark:to-iconic-gold/10 border-iconic-blue/40"
                     : ""
                 }`}
                 onMouseEnter={() => setHoveredCard(index)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                {/* Yellow glow overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/0 via-transparent to-yellow-400/0 opacity-0 group-hover:opacity-100 group-hover:from-yellow-400/5 group-hover:to-yellow-400/5 transition-all duration-500 ease-out"></div>
+                {/* Animated gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-iconic-blue/0 via-transparent to-iconic-gold/0 opacity-0 group-hover:opacity-100 group-hover:from-iconic-blue/5 group-hover:to-iconic-gold/5 transition-all duration-500 ease-out"></div>
                 
                 {/* Animated border glow */}
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 via-transparent to-yellow-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg blur-sm"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-iconic-blue/20 via-transparent to-iconic-gold/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg blur-sm"></div>
                 
                 <CardHeader className="pb-4 relative z-10">
                   <div className="flex items-center space-x-4">
                     <div className={`p-4 rounded-2xl transition-all duration-500 ease-out transform group-hover:scale-110 group-hover:rotate-3 ${
                       hoveredCard === index
-                        ? "bg-yellow-400/15 shadow-lg shadow-yellow-400/20"
+                        ? "bg-iconic-blue/15 shadow-lg shadow-iconic-blue/20"
                         : "bg-gray-100 dark:bg-iconic-slate/70"
                     }`}>
                       <div className="transition-transform duration-500 ease-out group-hover:scale-110">
                         {innovation.icon}
                       </div>
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-all duration-500 ease-out transform group-hover:translate-x-1">
+                    <CardTitle className="text-xl font-bold text-gray-900 dark:text-white group-hover:text-iconic-blue transition-all duration-500 ease-out transform group-hover:translate-x-1">
                       {innovation.title}
                     </CardTitle>
                   </div>
@@ -199,11 +199,11 @@ const InnovationSection = () => {
                 </CardContent>
 
                 {/* Animated bottom accent */}
-                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-yellow-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out origin-left"></div>
+                <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-iconic-blue to-iconic-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 ease-out origin-left"></div>
                 
                 {/* Subtle sparkle effect on hover */}
-                <div className="absolute top-4 right-4 w-2 h-2 bg-yellow-400 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700 ease-out transform scale-0 group-hover:scale-100"></div>
-                <div className="absolute top-8 right-8 w-1 h-1 bg-yellow-600 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-out transform scale-0 group-hover:scale-100"></div>
+                <div className="absolute top-4 right-4 w-2 h-2 bg-iconic-gold rounded-full opacity-0 group-hover:opacity-100 transition-all duration-700 ease-out transform scale-0 group-hover:scale-100"></div>
+                <div className="absolute top-8 right-8 w-1 h-1 bg-iconic-blue rounded-full opacity-0 group-hover:opacity-100 transition-all duration-1000 ease-out transform scale-0 group-hover:scale-100"></div>
               </Card>
             </div>
           ))}

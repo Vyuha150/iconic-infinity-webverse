@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -91,7 +90,7 @@ const Portfolio = () => {
       description:
         "Supply of premium ready-mix concrete for a 25-story residential apartment building, ensuring durability and structural integrity.",
       image:
-        "https://images.unsplash.com/photo-1628944682084-831f35256afa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1624&q=80",
+        "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
       client: "Urban Heights Development",
       year: "2022",
     },
@@ -103,7 +102,7 @@ const Portfolio = () => {
       description:
         "Complete flooring solution with premium tiles for a 150,000 sq ft shopping mall, featuring custom designs for different zones.",
       image:
-        "https://images.unsplash.com/photo-1567449303078-57ad995a65a9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+        "https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
       client: "Grandeur Mall",
       year: "2021",
     },
@@ -115,7 +114,7 @@ const Portfolio = () => {
       description:
         "Upgrade and modernization of elevator systems for a 5-star hotel, improving efficiency, safety, and aesthetic appeal.",
       image:
-        "https://images.unsplash.com/photo-1557441558-6f427b31afa1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80",
+        "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
       client: "Grand Meridian Hotel",
       year: "2023",
     },
@@ -127,7 +126,7 @@ const Portfolio = () => {
       description:
         "Development and launch of an exclusive artisanal pickle collection featuring regional flavors and preservative-free recipes.",
       image:
-        "https://images.unsplash.com/photo-1589632871394-638008b3baf6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80",
+        "https://images.unsplash.com/photo-1630409346182-a4b0d9d7ca9a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
       client: "Retail Market",
       year: "2023",
     },

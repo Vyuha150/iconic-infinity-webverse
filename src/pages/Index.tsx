@@ -42,11 +42,11 @@ const Index = () => {
   const featuredVerticals = [
     {
       title: "Stay More",
-      tagline: "Add Life",
+      tagline: "Comfort & Care",
       description:
-        "Stay More enhances your living experience with premium interior design solutions and home furnishings that transform your space into a sanctuary of comfort and style.",
+        "Stay More provides premium quality sanitary pads designed for maximum comfort, superior protection, and all-day confidence. Our products prioritize women's health and hygiene with innovative materials and ergonomic design.",
       imageUrl:
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+        "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
       link: "/services#staymore",
     },
     {
@@ -55,7 +55,7 @@ const Index = () => {
       description:
         "OJAS delivers premium ready-made concrete solutions with uncompromising quality for construction projects of all scales, ensuring durability and reliability in every pour.",
       imageUrl:
-        "https://images.unsplash.com/photo-1603251579711-3e2c1c2b42b7?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
+        "https://images.unsplash.com/photo-1590736969955-71cc94901144?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
       link: "/services#ojas",
     },
     {
@@ -69,7 +69,7 @@ const Index = () => {
     },
   ];
 
-  // Services data
+  // Services data with yellow glow hover effect
   const services = [
     {
       title: "Comprehensive Portfolio",
@@ -215,7 +215,7 @@ const Index = () => {
 
         <InnovationSection />
 
-        {/* Services Section */}
+        {/* Services Section with Yellow Glow Effect */}
         <section className="section-padding bg-white dark:bg-iconic-dark">
           <div className="container mx-auto container-padding">
             <div className="text-center max-w-3xl mx-auto mb-16 animate-on-scroll">
@@ -231,7 +231,43 @@ const Index = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {services.map((service, index) => (
-                <ServiceCard key={index} {...service} />
+                <div 
+                  key={index}
+                  className="service-card-wrapper group relative overflow-hidden rounded-lg border border-iconic-slate dark:border-iconic-slate/50 p-6 backdrop-blur-sm transition-all duration-500 hover:border-yellow-400/50"
+                >
+                  {/* Yellow glow effect on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/0 via-yellow-400/5 to-yellow-400/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_20px_rgba(255,255,0,0.3)]"></div>
+                  
+                  <div className="relative z-10 flex flex-col h-full">
+                    <div className="mb-4 text-iconic-gold transform transition-transform duration-300 group-hover:scale-110 text-4xl">
+                      {service.icon}
+                    </div>
+                    <h3 className="text-xl font-bold mb-3 text-white group-hover:text-yellow-300 transition-colors duration-300">{service.title}</h3>
+                    <p className="text-gray-300 mb-6 flex-1">{service.description}</p>
+                    <Link
+                      to={service.link}
+                      className="mt-auto inline-flex items-center text-iconic-gold font-medium hover:underline group-hover:text-yellow-300 transition-colors duration-300"
+                    >
+                      Learn more
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="ml-1 transition-transform duration-300 group-hover:translate-x-2"
+                      >
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
               ))}
             </div>
           </div>

@@ -38,10 +38,10 @@ const App = () => {
     // Force dark mode
     document.documentElement.classList.add('dark');
     
-    // Increased loading completion time to match LoadingScreen
+    // Increased loading completion time to match LoadingScreen (10.2 seconds)
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 8200); // Increased to match LoadingScreen timing
+    }, 10200);
     
     // Add animation script for scroll reveal
     const handleScroll = () => {

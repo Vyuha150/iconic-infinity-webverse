@@ -66,15 +66,8 @@ const RubiksCube = () => {
       cubeGroupRef.current = cubeGroup;
       scene.add(cubeGroup);
 
-      // Rubik's cube colors
-      const colors = [
-        0xff0000, // Red
-        0x00ff00, // Green  
-        0x0000ff, // Blue
-        0xffff00, // Yellow
-        0xff8800, // Orange
-        0xffffff, // White
-      ];
+      // Single dark tone color instead of multiple colors
+      const cubeColor = 0x2a2a2a; // Dark gray tone
 
       // Create individual cubes
       const cubeSize = 0.9;
@@ -86,16 +79,14 @@ const RubiksCube = () => {
           for (let z = 0; z < 3; z++) {
             const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
             
-            // Create materials for each face
-            const materials = colors.map(color => 
-              new THREE.MeshLambertMaterial({ 
-                color,
-                transparent: true,
-                opacity: 0.9
-              })
-            );
+            // Single dark material for all faces
+            const material = new THREE.MeshLambertMaterial({ 
+              color: cubeColor,
+              transparent: true,
+              opacity: 0.9
+            });
 
-            const cube = new THREE.Mesh(geometry, materials);
+            const cube = new THREE.Mesh(geometry, material);
             
             cube.position.set(
               (x - 1) * offset,
@@ -240,13 +231,7 @@ const RubiksCube = () => {
           {Array.from({ length: 9 }).map((_, i) => (
             <div
               key={i}
-              className={`w-8 h-8 rounded-sm animate-pulse ${
-                i % 6 === 0 ? 'bg-red-500' :
-                i % 6 === 1 ? 'bg-green-500' :
-                i % 6 === 2 ? 'bg-blue-500' :
-                i % 6 === 3 ? 'bg-yellow-500' :
-                i % 6 === 4 ? 'bg-orange-500' : 'bg-white'
-              }`}
+              className="w-8 h-8 rounded-sm animate-pulse bg-gray-600"
               style={{
                 animationDelay: `${i * 0.1}s`
               }}

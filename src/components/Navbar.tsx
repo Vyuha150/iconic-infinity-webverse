@@ -60,7 +60,7 @@ const Navbar = () => {
                 />
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-iconic-blue to-iconic-gold bg-clip-text text-transparent">
-                ICONIC
+                ICONIC Infinity Group
               </span>
             </Link>
 

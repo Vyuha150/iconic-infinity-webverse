@@ -80,11 +80,11 @@ const Navbar = () => {
                   className="p-3 rounded-full bg-iconic-blue/10 hover:bg-iconic-blue/20 backdrop-blur-sm border border-iconic-blue/20 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-iconic-gold/30 z-60 group"
                 >
                   {isOpen ? (
-                    <X className="w-6 h-6 text-iconic-gold animate-pulse transition-transform duration-300 group-hover:rotate-90" style={{
+                    <X className="w-6 h-6 text-iconic-gold transition-transform duration-300 group-hover:rotate-90" style={{
                       filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))'
                     }} />
                   ) : (
-                    <MoreHorizontal className="w-6 h-6 text-iconic-gold animate-pulse transition-transform duration-300 group-hover:scale-110" style={{
+                    <MoreHorizontal className="w-6 h-6 text-iconic-gold transition-transform duration-300 group-hover:scale-110" style={{
                       filter: 'drop-shadow(0 0 8px rgba(255, 215, 0, 0.6))'
                     }} />
                   )}

@@ -22,6 +22,7 @@ const RubiksCube = () => {
   const rendererRef = useRef<THREE.WebGLRenderer>();
   const cubeGroupRef = useRef<THREE.Group>();
   const mouseRef = useRef({ x: 0, y: 0 });
+  const targetRotationRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     if (!isWebGLAvailable()) {
@@ -152,11 +153,15 @@ const RubiksCube = () => {
       camera.position.set(5, 4, 6);
       camera.lookAt(0, 0, 0);
 
-      // Enhanced mouse interaction
+      // Smoothed mouse interaction
       const handleMouseMove = (event: MouseEvent) => {
         const rect = container.getBoundingClientRect();
-        mouseRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        mouseRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        const newMouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        const newMouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+        
+        // Smooth interpolation for mouse position
+        mouseRef.current.x = THREE.MathUtils.lerp(mouseRef.current.x, newMouseX, 0.1);
+        mouseRef.current.y = THREE.MathUtils.lerp(mouseRef.current.y, newMouseY, 0.1);
       };
 
       const handleMouseEnter = () => setIsHovered(true);
@@ -178,7 +183,7 @@ const RubiksCube = () => {
 
       window.addEventListener('resize', handleResize);
 
-      // Enhanced animation loop without solving effects
+      // Enhanced animation loop with smooth rotations
       const clock = new THREE.Clock();
       let autoRotation = { x: 0, y: 0 };
 
@@ -189,20 +194,32 @@ const RubiksCube = () => {
         const time = clock.getElapsedTime();
 
         if (cubeGroup) {
-          // Enhanced mouse following with smooth interpolation
-          const targetRotationY = mouseRef.current.x * (isHovered ? 0.5 : 0.2);
-          const targetRotationX = mouseRef.current.y * (isHovered ? 0.3 : 0.15);
+          // Smooth mouse following with target-based interpolation
+          const targetRotationY = mouseRef.current.x * (isHovered ? 0.4 : 0.15);
+          const targetRotationX = mouseRef.current.y * (isHovered ? 0.25 : 0.1);
+          
+          // Update target rotation
+          targetRotationRef.current.x = targetRotationX;
+          targetRotationRef.current.y = targetRotationY;
           
           // Auto rotation when not hovering
           if (!isHovered) {
-            autoRotation.x += delta * 0.15;
-            autoRotation.y += delta * 0.2;
+            autoRotation.x += delta * 0.1;
+            autoRotation.y += delta * 0.15;
           }
           
-          // Smooth rotation interpolation
-          const lerpFactor = isHovered ? 0.08 : 0.03;
-          cubeGroup.rotation.y += (targetRotationY + autoRotation.y - cubeGroup.rotation.y) * lerpFactor;
-          cubeGroup.rotation.x += (targetRotationX + autoRotation.x - cubeGroup.rotation.x) * lerpFactor;
+          // Very smooth rotation interpolation
+          const lerpFactor = 0.02; // Reduced for smoother movement
+          cubeGroup.rotation.y = THREE.MathUtils.lerp(
+            cubeGroup.rotation.y, 
+            targetRotationRef.current.y + autoRotation.y, 
+            lerpFactor
+          );
+          cubeGroup.rotation.x = THREE.MathUtils.lerp(
+            cubeGroup.rotation.x, 
+            targetRotationRef.current.x + autoRotation.x, 
+            lerpFactor
+          );
 
           // Enhanced floating animation
           cubeGroup.position.y = Math.sin(time * 0.6) * 0.15;

@@ -175,17 +175,17 @@ const Hero = () => {
           
           {/* Left Column - Content */}
           <div className="space-y-8">
-            {/* Main Heading */}
+            {/* Main Heading - Single Line */}
             <div className="space-y-6 text-center lg:text-left">
-              <h1 className="opacity-0 animate-on-load text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.1]">
+              <h1 className="opacity-0 animate-on-load text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight whitespace-nowrap">
                 <span className="bg-gradient-to-r from-iconic-blue via-iconic-gold to-iconic-blue bg-clip-text text-transparent">
                   ICONIC Infinity Group
                 </span>
               </h1>
               
-              {/* Enhanced Content with better hierarchy - removed line */}
+              {/* Enhanced Content with better hierarchy */}
               <div className="opacity-0 animate-on-load space-y-4">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white leading-tight">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-gray-900 dark:text-white leading-tight">
                   Face of the Future
                 </h2>
                 

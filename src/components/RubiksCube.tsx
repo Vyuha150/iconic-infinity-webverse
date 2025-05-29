@@ -24,6 +24,7 @@ const RubiksCube = () => {
   const mouseRef = useRef({ x: 0, y: 0 });
   const targetRotationRef = useRef({ x: 0, y: 0 });
   const currentRotationRef = useRef({ x: 0, y: 0 });
+  const mouseInfluenceRef = useRef(1);
 
   useEffect(() => {
     if (!isWebGLAvailable()) {
@@ -156,13 +157,11 @@ const RubiksCube = () => {
 
       // Global mouse tracking for smooth animation
       const handleGlobalMouseMove = (event: MouseEvent) => {
-        if (!container) return;
-        
         const rect = container.getBoundingClientRect();
         const newMouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         const newMouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
         
-        // Update target mouse position
+        // Update mouse position smoothly
         mouseRef.current.x = newMouseX;
         mouseRef.current.y = newMouseY;
       };
@@ -198,23 +197,29 @@ const RubiksCube = () => {
         const time = clock.getElapsedTime();
 
         if (cubeGroup) {
-          // Calculate target rotation based on mouse position and hover state
-          const intensityMultiplier = isHovered ? 0.4 : 0.15;
-          const targetRotationY = mouseRef.current.x * intensityMultiplier;
-          const targetRotationX = mouseRef.current.y * intensityMultiplier * 0.6;
+          // Smooth mouse influence transition
+          const targetInfluence = isHovered ? 1 : 0.3;
+          mouseInfluenceRef.current = THREE.MathUtils.lerp(
+            mouseInfluenceRef.current,
+            targetInfluence,
+            0.05
+          );
+
+          // Consistent rotation calculation with smooth mouse influence
+          const baseIntensity = 0.3;
+          const targetRotationY = mouseRef.current.x * baseIntensity * mouseInfluenceRef.current;
+          const targetRotationX = mouseRef.current.y * baseIntensity * mouseInfluenceRef.current * 0.6;
           
           // Update target rotation
           targetRotationRef.current.x = targetRotationX;
           targetRotationRef.current.y = targetRotationY;
           
-          // Auto rotation when not hovering
-          if (!isHovered) {
-            autoRotation.x += delta * 0.1;
-            autoRotation.y += delta * 0.15;
-          }
+          // Continuous auto rotation
+          autoRotation.x += delta * 0.1;
+          autoRotation.y += delta * 0.15;
           
           // Smooth interpolation for current rotation
-          const lerpFactor = 0.05;
+          const lerpFactor = 0.03;
           currentRotationRef.current.x = THREE.MathUtils.lerp(
             currentRotationRef.current.x,
             targetRotationRef.current.x + autoRotation.x,
@@ -233,23 +238,23 @@ const RubiksCube = () => {
           // Enhanced floating animation
           cubeGroup.position.y = Math.sin(time * 0.6) * 0.15;
 
-          // Enhanced hover effects
+          // Subtle material effects without scaling jumps
           cubes.forEach((cube, index) => {
-            if (isHovered) {
-              const hoverIntensity = 1 + Math.sin(time * 2 + index * 0.1) * 0.05;
-              cube.scale.setScalar(hoverIntensity);
+            // Only subtle material changes, no scaling
+            if (cube.material instanceof THREE.MeshPhysicalMaterial) {
+              const hoverTransmission = isHovered ? 0.3 : 0.2;
+              const hoverOpacity = isHovered ? 0.85 : 0.9;
               
-              // Dynamic material properties on hover
-              if (cube.material instanceof THREE.MeshPhysicalMaterial) {
-                cube.material.transmission = 0.3 + Math.sin(time * 3 + index * 0.1) * 0.1;
-                cube.material.opacity = 0.85 + Math.sin(time * 2 + index * 0.1) * 0.1;
-              }
-            } else {
-              cube.scale.lerp(new THREE.Vector3(1, 1, 1), 0.1);
-              if (cube.material instanceof THREE.MeshPhysicalMaterial) {
-                cube.material.transmission = THREE.MathUtils.lerp(cube.material.transmission, 0.2, 0.05);
-                cube.material.opacity = THREE.MathUtils.lerp(cube.material.opacity, 0.9, 0.05);
-              }
+              cube.material.transmission = THREE.MathUtils.lerp(
+                cube.material.transmission, 
+                hoverTransmission + Math.sin(time * 2 + index * 0.1) * 0.05, 
+                0.02
+              );
+              cube.material.opacity = THREE.MathUtils.lerp(
+                cube.material.opacity, 
+                hoverOpacity + Math.sin(time * 1.5 + index * 0.1) * 0.05, 
+                0.02
+              );
             }
           });
 
@@ -325,7 +330,7 @@ const RubiksCube = () => {
   return (
     <div 
       ref={mountRef} 
-      className="w-full h-full cursor-pointer transition-all duration-300 hover:scale-105"
+      className="w-full h-full cursor-pointer transition-all duration-300"
       style={{ minHeight: '400px' }}
     />
   );

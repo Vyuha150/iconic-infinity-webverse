@@ -61,54 +61,92 @@ const Hero = () => {
     }
   ];
 
+  // Aries constellation coordinates (simplified version)
+  const ariesStars = [
+    { x: 20, y: 25, brightness: 1 },
+    { x: 35, y: 30, brightness: 0.8 },
+    { x: 45, y: 20, brightness: 0.9 },
+    { x: 60, y: 35, brightness: 0.7 },
+    { x: 75, y: 25, brightness: 0.8 },
+    { x: 80, y: 45, brightness: 0.6 },
+    { x: 85, y: 60, brightness: 0.9 }
+  ];
+
+  const ariesConnections = [
+    [0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6]
+  ];
+
   return (
     <section className="relative min-h-screen flex flex-col justify-center bg-white dark:bg-iconic-dark overflow-hidden pt-16">
-      {/* Constellation Background */}
+      {/* Aries Constellation Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-iconic-dark dark:via-iconic-slate/20 dark:to-iconic-dark">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,215,0,0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_40%,rgba(255,215,0,0.15),transparent_50%)]"></div>
           
-          {/* Constellation Pattern */}
+          {/* Aries Constellation */}
           <div className="absolute inset-0">
-            {/* Stars */}
-            {Array.from({ length: 80 }).map((_, i) => (
+            {/* Aries Stars */}
+            {ariesStars.map((star, i) => (
               <div
-                key={`star-${i}`}
+                key={`aries-star-${i}`}
+                className="absolute w-2 h-2 bg-iconic-gold rounded-full animate-pulse"
+                style={{
+                  left: `${star.x}%`,
+                  top: `${star.y}%`,
+                  animationDelay: `${i * 0.5}s`,
+                  animationDuration: `${2 + Math.random() * 2}s`,
+                  opacity: star.brightness,
+                  filter: 'drop-shadow(0 0 4px rgba(255, 215, 0, 0.8))'
+                }}
+              />
+            ))}
+            
+            {/* Aries Constellation Lines */}
+            <svg className="absolute inset-0 w-full h-full opacity-30">
+              {ariesConnections.map((connection, i) => {
+                const [startIdx, endIdx] = connection;
+                const start = ariesStars[startIdx];
+                const end = ariesStars[endIdx];
+                return (
+                  <line
+                    key={`aries-line-${i}`}
+                    x1={`${start.x}%`}
+                    y1={`${start.y}%`}
+                    x2={`${end.x}%`}
+                    y2={`${end.y}%`}
+                    stroke="rgba(255, 215, 0, 0.6)"
+                    strokeWidth="1"
+                    className="animate-pulse"
+                    style={{
+                      animationDelay: `${i * 0.3}s`,
+                      animationDuration: `${3 + Math.random() * 2}s`
+                    }}
+                  />
+                );
+              })}
+            </svg>
+          </div>
+          
+          {/* Additional Random Stars */}
+          <div className="absolute inset-0">
+            {Array.from({ length: 60 }).map((_, i) => (
+              <div
+                key={`random-star-${i}`}
                 className="absolute w-1 h-1 bg-iconic-gold rounded-full animate-pulse"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
                   animationDelay: `${Math.random() * 3}s`,
                   animationDuration: `${2 + Math.random() * 2}s`,
-                  opacity: 0.3 + Math.random() * 0.7
+                  opacity: 0.2 + Math.random() * 0.5
                 }}
               />
             ))}
-            
-            {/* Constellation Lines */}
-            <svg className="absolute inset-0 w-full h-full opacity-20">
-              {Array.from({ length: 15 }).map((_, i) => (
-                <line
-                  key={`line-${i}`}
-                  x1={`${Math.random() * 100}%`}
-                  y1={`${Math.random() * 100}%`}
-                  x2={`${Math.random() * 100}%`}
-                  y2={`${Math.random() * 100}%`}
-                  stroke="rgba(255, 215, 0, 0.3)"
-                  strokeWidth="0.5"
-                  className="animate-pulse"
-                  style={{
-                    animationDelay: `${Math.random() * 2}s`,
-                    animationDuration: `${3 + Math.random() * 2}s`
-                  }}
-                />
-              ))}
-            </svg>
           </div>
           
           {/* Enhanced Sparkles with motion */}
           <div className="absolute inset-0">
-            {Array.from({ length: 30 }).map((_, i) => (
+            {Array.from({ length: 40 }).map((_, i) => (
               <div
                 key={`sparkle-${i}`}
                 className="absolute animate-float"
@@ -140,18 +178,15 @@ const Hero = () => {
             {/* Main Heading */}
             <div className="space-y-6 text-center lg:text-left">
               <h1 className="opacity-0 animate-on-load text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.1]">
-                <span className="bg-gradient-to-r from-iconic-blue via-iconic-gold to-iconic-blue bg-clip-text text-transparent whitespace-nowrap">
+                <span className="bg-gradient-to-r from-iconic-blue via-iconic-gold to-iconic-blue bg-clip-text text-transparent">
                   ICONIC Infinity Group
                 </span>
               </h1>
               
-              {/* Enhanced Content with better hierarchy */}
+              {/* Enhanced Content with better hierarchy - removed line */}
               <div className="opacity-0 animate-on-load space-y-4">
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white leading-tight">
-                  <span className="relative">
-                    Face of the Future
-                    <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-iconic-blue to-iconic-gold rounded-full opacity-70"></div>
-                  </span>
+                  Face of the Future
                 </h2>
                 
                 <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">

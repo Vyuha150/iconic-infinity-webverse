@@ -178,10 +178,9 @@ const RubiksCube = () => {
 
       window.addEventListener('resize', handleResize);
 
-      // Enhanced animation loop
+      // Enhanced animation loop without solving effects
       const clock = new THREE.Clock();
       let autoRotation = { x: 0, y: 0 };
-      let solvingAnimation = 0;
 
       const animate = () => {
         animationRef.current = requestAnimationFrame(animate);
@@ -208,24 +207,16 @@ const RubiksCube = () => {
           // Enhanced floating animation
           cubeGroup.position.y = Math.sin(time * 0.6) * 0.15;
 
-          // Solving animation effect
-          solvingAnimation += delta * 0.8;
+          // Enhanced hover effects without solving animation
           cubes.forEach((cube, index) => {
-            const offset = index * 0.1;
-            
-            // Subtle individual rotations for "solving" effect
-            cube.rotation.z = Math.sin(solvingAnimation + offset) * 0.03;
-            cube.rotation.x += Math.sin(solvingAnimation * 0.5 + offset) * 0.002;
-            
-            // Enhanced hover effects
             if (isHovered) {
-              const hoverIntensity = 1 + Math.sin(time * 2 + offset) * 0.05;
+              const hoverIntensity = 1 + Math.sin(time * 2 + index * 0.1) * 0.05;
               cube.scale.setScalar(hoverIntensity);
               
               // Dynamic material properties on hover
               if (cube.material instanceof THREE.MeshPhysicalMaterial) {
-                cube.material.transmission = 0.3 + Math.sin(time * 3 + offset) * 0.1;
-                cube.material.opacity = 0.85 + Math.sin(time * 2 + offset) * 0.1;
+                cube.material.transmission = 0.3 + Math.sin(time * 3 + index * 0.1) * 0.1;
+                cube.material.opacity = 0.85 + Math.sin(time * 2 + index * 0.1) * 0.1;
               }
             } else {
               cube.scale.lerp(new THREE.Vector3(1, 1, 1), 0.1);

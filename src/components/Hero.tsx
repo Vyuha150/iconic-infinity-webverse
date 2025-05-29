@@ -1,4 +1,3 @@
-
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -177,10 +176,8 @@ const Hero = () => {
           <div className="space-y-8">
             {/* Main Heading - Single Line */}
             <div className="space-y-6 text-center lg:text-left">
-              <h1 className="opacity-0 animate-on-load text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-tight whitespace-nowrap">
-                <span className="bg-gradient-to-r from-iconic-blue via-iconic-gold to-iconic-blue bg-clip-text text-transparent">
-                  ICONIC Infinity Group
-                </span>
+              <h1 className="opacity-0 animate-on-load text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold tracking-tight leading-tight whitespace-nowrap text-iconic-blue">
+                ICONIC Infinity Group
               </h1>
               
               {/* Enhanced Content with better hierarchy */}

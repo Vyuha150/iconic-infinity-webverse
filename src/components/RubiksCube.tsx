@@ -23,6 +23,7 @@ const RubiksCube = () => {
   const cubeGroupRef = useRef<THREE.Group>();
   const mouseRef = useRef({ x: 0, y: 0 });
   const targetRotationRef = useRef({ x: 0, y: 0 });
+  const currentRotationRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
     if (!isWebGLAvailable()) {
@@ -153,21 +154,24 @@ const RubiksCube = () => {
       camera.position.set(5, 4, 6);
       camera.lookAt(0, 0, 0);
 
-      // Smoothed mouse interaction
-      const handleMouseMove = (event: MouseEvent) => {
+      // Global mouse tracking for smooth animation
+      const handleGlobalMouseMove = (event: MouseEvent) => {
+        if (!container) return;
+        
         const rect = container.getBoundingClientRect();
         const newMouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         const newMouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
         
-        // Smooth interpolation for mouse position
-        mouseRef.current.x = THREE.MathUtils.lerp(mouseRef.current.x, newMouseX, 0.1);
-        mouseRef.current.y = THREE.MathUtils.lerp(mouseRef.current.y, newMouseY, 0.1);
+        // Update target mouse position
+        mouseRef.current.x = newMouseX;
+        mouseRef.current.y = newMouseY;
       };
 
       const handleMouseEnter = () => setIsHovered(true);
       const handleMouseLeave = () => setIsHovered(false);
 
-      container.addEventListener('mousemove', handleMouseMove);
+      // Add global mouse listener for smooth tracking
+      document.addEventListener('mousemove', handleGlobalMouseMove);
       container.addEventListener('mouseenter', handleMouseEnter);
       container.addEventListener('mouseleave', handleMouseLeave);
 
@@ -194,9 +198,10 @@ const RubiksCube = () => {
         const time = clock.getElapsedTime();
 
         if (cubeGroup) {
-          // Smooth mouse following with target-based interpolation
-          const targetRotationY = mouseRef.current.x * (isHovered ? 0.4 : 0.15);
-          const targetRotationX = mouseRef.current.y * (isHovered ? 0.25 : 0.1);
+          // Calculate target rotation based on mouse position and hover state
+          const intensityMultiplier = isHovered ? 0.4 : 0.15;
+          const targetRotationY = mouseRef.current.x * intensityMultiplier;
+          const targetRotationX = mouseRef.current.y * intensityMultiplier * 0.6;
           
           // Update target rotation
           targetRotationRef.current.x = targetRotationX;
@@ -208,23 +213,27 @@ const RubiksCube = () => {
             autoRotation.y += delta * 0.15;
           }
           
-          // Very smooth rotation interpolation
-          const lerpFactor = 0.02; // Reduced for smoother movement
-          cubeGroup.rotation.y = THREE.MathUtils.lerp(
-            cubeGroup.rotation.y, 
-            targetRotationRef.current.y + autoRotation.y, 
+          // Smooth interpolation for current rotation
+          const lerpFactor = 0.05;
+          currentRotationRef.current.x = THREE.MathUtils.lerp(
+            currentRotationRef.current.x,
+            targetRotationRef.current.x + autoRotation.x,
             lerpFactor
           );
-          cubeGroup.rotation.x = THREE.MathUtils.lerp(
-            cubeGroup.rotation.x, 
-            targetRotationRef.current.x + autoRotation.x, 
+          currentRotationRef.current.y = THREE.MathUtils.lerp(
+            currentRotationRef.current.y,
+            targetRotationRef.current.y + autoRotation.y,
             lerpFactor
           );
+          
+          // Apply the smoothed rotation
+          cubeGroup.rotation.x = currentRotationRef.current.x;
+          cubeGroup.rotation.y = currentRotationRef.current.y;
 
           // Enhanced floating animation
           cubeGroup.position.y = Math.sin(time * 0.6) * 0.15;
 
-          // Enhanced hover effects without solving animation
+          // Enhanced hover effects
           cubes.forEach((cube, index) => {
             if (isHovered) {
               const hoverIntensity = 1 + Math.sin(time * 2 + index * 0.1) * 0.05;
@@ -260,7 +269,7 @@ const RubiksCube = () => {
           cancelAnimationFrame(animationRef.current);
         }
 
-        container.removeEventListener('mousemove', handleMouseMove);
+        document.removeEventListener('mousemove', handleGlobalMouseMove);
         container.removeEventListener('mouseenter', handleMouseEnter);
         container.removeEventListener('mouseleave', handleMouseLeave);
         window.removeEventListener('resize', handleResize);

@@ -115,22 +115,14 @@
     @apply transform translate-y-10;
   }
 
-  /* Gold Intrusion Text Effect */
+  /* Subtle Gold Border Text Effect */
   .gold-intrusion-text {
     text-shadow: 
-      -2px -2px 0 #FFD700,
-      2px -2px 0 #FFD700,
-      -2px 2px 0 #FFD700,
-      2px 2px 0 #FFD700,
-      -3px -3px 0 #DAA520,
-      3px -3px 0 #DAA520,
-      -3px 3px 0 #DAA520,
-      3px 3px 0 #DAA520,
-      -4px -4px 8px rgba(255, 215, 0, 0.3),
-      4px 4px 8px rgba(255, 215, 0, 0.3),
-      0 0 15px rgba(255, 215, 0, 0.4),
-      0 0 25px rgba(255, 215, 0, 0.2);
-    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+      -1px -1px 0 rgba(255, 215, 0, 0.4),
+      1px -1px 0 rgba(255, 215, 0, 0.4),
+      -1px 1px 0 rgba(255, 215, 0, 0.4),
+      1px 1px 0 rgba(255, 215, 0, 0.4),
+      0 0 3px rgba(255, 215, 0, 0.2);
   }
 
   /* Framer-style sliding animation */

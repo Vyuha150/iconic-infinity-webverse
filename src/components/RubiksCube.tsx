@@ -22,9 +22,8 @@ const RubiksCube = () => {
   const rendererRef = useRef<THREE.WebGLRenderer>();
   const cubeGroupRef = useRef<THREE.Group>();
   const mouseRef = useRef({ x: 0, y: 0 });
-  const targetRotationRef = useRef({ x: 0, y: 0 });
   const currentRotationRef = useRef({ x: 0, y: 0 });
-  const mouseInfluenceRef = useRef(1);
+  const mouseInfluenceRef = useRef(0.3);
 
   useEffect(() => {
     if (!isWebGLAvailable()) {
@@ -186,9 +185,8 @@ const RubiksCube = () => {
 
       window.addEventListener('resize', handleResize);
 
-      // Enhanced animation loop with smooth rotations
+      // Enhanced animation loop with continuous rotation following cursor
       const clock = new THREE.Clock();
-      let autoRotation = { x: 0, y: 0 };
 
       const animate = () => {
         animationRef.current = requestAnimationFrame(animate);
@@ -198,40 +196,32 @@ const RubiksCube = () => {
 
         if (cubeGroup) {
           // Smooth mouse influence transition
-          const targetInfluence = isHovered ? 1 : 0.3;
+          const targetInfluence = isHovered ? 1 : 0.5;
           mouseInfluenceRef.current = THREE.MathUtils.lerp(
             mouseInfluenceRef.current,
             targetInfluence,
-            0.05
+            0.02
           );
 
-          // Consistent rotation calculation with smooth mouse influence
-          const baseIntensity = 0.3;
+          // Calculate target rotation based on mouse position
+          const baseIntensity = 0.4;
           const targetRotationY = mouseRef.current.x * baseIntensity * mouseInfluenceRef.current;
           const targetRotationX = mouseRef.current.y * baseIntensity * mouseInfluenceRef.current * 0.6;
           
-          // Update target rotation
-          targetRotationRef.current.x = targetRotationX;
-          targetRotationRef.current.y = targetRotationY;
-          
-          // Continuous auto rotation
-          autoRotation.x += delta * 0.1;
-          autoRotation.y += delta * 0.15;
-          
-          // Smooth interpolation for current rotation
-          const lerpFactor = 0.03;
+          // Smooth interpolation to follow cursor continuously
+          const lerpFactor = 0.02;
           currentRotationRef.current.x = THREE.MathUtils.lerp(
             currentRotationRef.current.x,
-            targetRotationRef.current.x + autoRotation.x,
+            targetRotationX,
             lerpFactor
           );
           currentRotationRef.current.y = THREE.MathUtils.lerp(
             currentRotationRef.current.y,
-            targetRotationRef.current.y + autoRotation.y,
+            targetRotationY,
             lerpFactor
           );
           
-          // Apply the smoothed rotation
+          // Apply the smoothed rotation (no auto-rotation reset)
           cubeGroup.rotation.x = currentRotationRef.current.x;
           cubeGroup.rotation.y = currentRotationRef.current.y;
 

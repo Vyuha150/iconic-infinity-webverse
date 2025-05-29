@@ -16,6 +16,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   link,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [hasGlowed, setHasGlowed] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
@@ -41,24 +42,36 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     };
   }, []);
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    if (!hasGlowed) {
+      setHasGlowed(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <div
       ref={cardRef}
       className="service-card flex flex-col relative overflow-hidden group animate-on-scroll rounded-lg border border-iconic-slate dark:border-iconic-slate/50 p-6 backdrop-blur-sm"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
-      {/* Animated background */}
+      {/* Single glow effect - no pulsating */}
       <div
-        className={`absolute inset-0 bg-gradient-to-r from-iconic-blue to-iconic-gold opacity-0 group-hover:opacity-10 transition-opacity duration-500 ${
-          isHovered ? "animate-pulse" : ""
-        }`}
+        className={`absolute inset-0 bg-gradient-to-r from-iconic-blue to-iconic-gold opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
       ></div>
       
-      {/* Glowing border effect on hover */}
-      <div className="absolute inset-0 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" 
+      {/* Single shine effect on first hover */}
+      <div 
+        className={`absolute inset-0 rounded-lg opacity-0 transition-opacity duration-700 pointer-events-none ${
+          hasGlowed ? 'animate-[shine_0.8s_ease-out_forwards]' : ''
+        }`}
         style={{
-          boxShadow: "0 0 15px rgba(0, 71, 171, 0.5), 0 0 30px rgba(255, 215, 0, 0.3)",
+          boxShadow: "0 0 20px rgba(0, 71, 171, 0.6), 0 0 40px rgba(255, 215, 0, 0.4)",
         }}
       ></div>
 

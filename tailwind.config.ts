@@ -113,6 +113,11 @@ export default {
 				'dash': {
 					'0%': { strokeDashoffset: '150' },
 					'100%': { strokeDashoffset: '0' }
+				},
+				'shine': {
+					'0%': { opacity: '0' },
+					'50%': { opacity: '1' },
+					'100%': { opacity: '0' }
 				}
 			},
 			animation: {
@@ -123,7 +128,8 @@ export default {
 				'float': 'float 6s ease-in-out infinite',
 				'spin-slow': 'spin-slow 20s linear infinite',
 				'rotate-3d': 'rotate-3d 15s linear infinite',
-				'dash': 'dash 2s ease-in-out infinite alternate'
+				'dash': 'dash 2s ease-in-out infinite alternate',
+				'shine': 'shine 0.8s ease-out forwards'
 			},
 			fontFamily: {
 				sans: ['Inter', 'sans-serif'],

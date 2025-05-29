@@ -16,14 +16,12 @@ const isWebGLAvailable = () => {
 const RubiksCube = () => {
   const mountRef = useRef<HTMLDivElement>(null);
   const [webGLFailed, setWebGLFailed] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
   const animationRef = useRef<number>();
   const sceneRef = useRef<THREE.Scene>();
   const rendererRef = useRef<THREE.WebGLRenderer>();
   const cubeGroupRef = useRef<THREE.Group>();
   const mouseRef = useRef({ x: 0, y: 0 });
   const currentRotationRef = useRef({ x: 0, y: 0 });
-  const mouseInfluenceRef = useRef(0.3);
 
   useEffect(() => {
     if (!isWebGLAvailable()) {
@@ -165,13 +163,8 @@ const RubiksCube = () => {
         mouseRef.current.y = newMouseY;
       };
 
-      const handleMouseEnter = () => setIsHovered(true);
-      const handleMouseLeave = () => setIsHovered(false);
-
-      // Add global mouse listener for smooth tracking
+      // Add global mouse listener for smooth tracking (no hover events)
       document.addEventListener('mousemove', handleGlobalMouseMove);
-      container.addEventListener('mouseenter', handleMouseEnter);
-      container.addEventListener('mouseleave', handleMouseLeave);
 
       // Resize handler
       const handleResize = () => {
@@ -195,18 +188,11 @@ const RubiksCube = () => {
         const time = clock.getElapsedTime();
 
         if (cubeGroup) {
-          // Smooth mouse influence transition
-          const targetInfluence = isHovered ? 1 : 0.5;
-          mouseInfluenceRef.current = THREE.MathUtils.lerp(
-            mouseInfluenceRef.current,
-            targetInfluence,
-            0.02
-          );
-
-          // Calculate target rotation based on mouse position
+          // Calculate target rotation based on mouse position (consistent influence)
           const baseIntensity = 0.4;
-          const targetRotationY = mouseRef.current.x * baseIntensity * mouseInfluenceRef.current;
-          const targetRotationX = mouseRef.current.y * baseIntensity * mouseInfluenceRef.current * 0.6;
+          const mouseInfluence = 0.5; // Fixed influence, no hover changes
+          const targetRotationY = mouseRef.current.x * baseIntensity * mouseInfluence;
+          const targetRotationX = mouseRef.current.y * baseIntensity * mouseInfluence * 0.6;
           
           // Smooth interpolation to follow cursor continuously
           const lerpFactor = 0.02;
@@ -221,30 +207,19 @@ const RubiksCube = () => {
             lerpFactor
           );
           
-          // Apply the smoothed rotation (no auto-rotation reset)
+          // Apply the smoothed rotation
           cubeGroup.rotation.x = currentRotationRef.current.x;
           cubeGroup.rotation.y = currentRotationRef.current.y;
 
           // Enhanced floating animation
           cubeGroup.position.y = Math.sin(time * 0.6) * 0.15;
 
-          // Subtle material effects without scaling jumps
+          // Static material effects (no hover-based changes)
           cubes.forEach((cube, index) => {
-            // Only subtle material changes, no scaling
             if (cube.material instanceof THREE.MeshPhysicalMaterial) {
-              const hoverTransmission = isHovered ? 0.3 : 0.2;
-              const hoverOpacity = isHovered ? 0.85 : 0.9;
-              
-              cube.material.transmission = THREE.MathUtils.lerp(
-                cube.material.transmission, 
-                hoverTransmission + Math.sin(time * 2 + index * 0.1) * 0.05, 
-                0.02
-              );
-              cube.material.opacity = THREE.MathUtils.lerp(
-                cube.material.opacity, 
-                hoverOpacity + Math.sin(time * 1.5 + index * 0.1) * 0.05, 
-                0.02
-              );
+              // Static transmission and opacity with subtle animation
+              cube.material.transmission = 0.2 + Math.sin(time * 2 + index * 0.1) * 0.05;
+              cube.material.opacity = 0.9 + Math.sin(time * 1.5 + index * 0.1) * 0.05;
             }
           });
 
@@ -265,8 +240,6 @@ const RubiksCube = () => {
         }
 
         document.removeEventListener('mousemove', handleGlobalMouseMove);
-        container.removeEventListener('mouseenter', handleMouseEnter);
-        container.removeEventListener('mouseleave', handleMouseLeave);
         window.removeEventListener('resize', handleResize);
 
         if (container && renderer.domElement && container.contains(renderer.domElement)) {
@@ -295,7 +268,7 @@ const RubiksCube = () => {
       console.error("Three.js Rubik's cube initialization error:", error);
       setWebGLFailed(true);
     }
-  }, [isHovered]);
+  }, []); // Removed isHovered dependency
 
   // Enhanced fallback when WebGL is not available
   if (webGLFailed) {

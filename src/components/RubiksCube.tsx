@@ -21,8 +21,6 @@ const RubiksCube = () => {
   const rendererRef = useRef<THREE.WebGLRenderer>();
   const cubeGroupRef = useRef<THREE.Group>();
   const mouseRef = useRef({ x: 0, y: 0 });
-  const targetRotationRef = useRef({ x: 0, y: 0 });
-  const solvingRef = useRef({ isSolving: false, step: 0 });
 
   useEffect(() => {
     if (!isWebGLAvailable()) {
@@ -38,7 +36,12 @@ const RubiksCube = () => {
       const scene = new THREE.Scene();
       sceneRef.current = scene;
       
-      const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+      const camera = new THREE.PerspectiveCamera(
+        50,
+        1, // Will be updated based on container
+        0.1,
+        1000
+      );
 
       // Enhanced renderer
       const renderer = new THREE.WebGLRenderer({
@@ -55,8 +58,6 @@ const RubiksCube = () => {
       renderer.setClearColor(0x000000, 0);
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-      renderer.toneMapping = THREE.ACESFilmicToneMapping;
-      renderer.toneMappingExposure = 1.0;
       
       container.appendChild(renderer.domElement);
 
@@ -65,37 +66,32 @@ const RubiksCube = () => {
       cubeGroupRef.current = cubeGroup;
       scene.add(cubeGroup);
 
-      // Gold color palette - different shades for variety
-      const goldColors = [
-        new THREE.Color(0xFFD700), // Gold
-        new THREE.Color(0xFFA500), // Orange Gold  
-        new THREE.Color(0xFFB347), // Light Gold
-        new THREE.Color(0xB8860B), // Dark Gold
-        new THREE.Color(0xDAA520), // Goldenrod
-        new THREE.Color(0xF4A460), // Sandy Gold
+      // Rubik's cube colors
+      const colors = [
+        0xff0000, // Red
+        0x00ff00, // Green  
+        0x0000ff, // Blue
+        0xffff00, // Yellow
+        0xff8800, // Orange
+        0xffffff, // White
       ];
 
       // Create individual cubes
       const cubeSize = 0.9;
       const gap = 0.1;
-      const offset = cubeSize + gap;
-      const individualCubes: THREE.Mesh[] = [];
+      const offset = (cubeSize + gap);
 
       for (let x = 0; x < 3; x++) {
         for (let y = 0; y < 3; y++) {
           for (let z = 0; z < 3; z++) {
             const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
             
-            // Create metallic materials for each face
-            const materials = goldColors.map((color, index) => 
-              new THREE.MeshPhysicalMaterial({ 
-                color: color,
-                metalness: 0.95,
-                roughness: 0.05,
-                clearcoat: 1.0,
-                clearcoatRoughness: 0.0,
-                reflectivity: 1.0,
-                envMapIntensity: 1.5,
+            // Create materials for each face
+            const materials = colors.map(color => 
+              new THREE.MeshLambertMaterial({ 
+                color,
+                transparent: true,
+                opacity: 0.9
               })
             );
 
@@ -107,76 +103,45 @@ const RubiksCube = () => {
               (z - 1) * offset
             );
 
-            // Add edge lines for definition
+            // Add edge geometry for that classic Rubik's look
             const edges = new THREE.EdgesGeometry(geometry);
             const edgeMaterial = new THREE.LineBasicMaterial({ 
-              color: 0x333333, 
-              linewidth: 2,
-              transparent: true,
-              opacity: 0.6
+              color: 0x000000, 
+              linewidth: 2 
             });
             const edgeLines = new THREE.LineSegments(edges, edgeMaterial);
             cube.add(edgeLines);
 
-            // Store original data
-            cube.userData = {
-              originalPosition: cube.position.clone(),
-              originalRotation: cube.rotation.clone(),
-              layerX: x,
-              layerY: y,
-              layerZ: z,
-              rotationSpeed: Math.random() * 0.02 + 0.01
-            };
-
-            individualCubes.push(cube);
             cubeGroup.add(cube);
           }
         }
       }
 
-      // Enhanced lighting for metallic appearance
-      const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
+      // Enhanced lighting setup
+      const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
       scene.add(ambientLight);
 
-      const mainLight = new THREE.DirectionalLight(0xffffff, 1.5);
-      mainLight.position.set(10, 10, 5);
-      mainLight.castShadow = true;
-      mainLight.shadow.mapSize.width = 2048;
-      mainLight.shadow.mapSize.height = 2048;
-      scene.add(mainLight);
+      const directionalLight1 = new THREE.DirectionalLight(0xffffff, 0.8);
+      directionalLight1.position.set(5, 5, 5);
+      directionalLight1.castShadow = true;
+      scene.add(directionalLight1);
 
-      const fillLight = new THREE.DirectionalLight(0xffd700, 0.8);
-      fillLight.position.set(-5, -5, -5);
-      scene.add(fillLight);
-
-      const rimLight = new THREE.DirectionalLight(0xffffff, 0.6);
-      rimLight.position.set(0, 0, -10);
-      scene.add(rimLight);
+      const directionalLight2 = new THREE.DirectionalLight(0xffffff, 0.4);
+      directionalLight2.position.set(-5, -5, -5);
+      scene.add(directionalLight2);
 
       // Camera positioning
-      camera.position.set(6, 4, 8);
+      camera.position.set(4, 4, 6);
       camera.lookAt(0, 0, 0);
 
-      // Smooth mouse interaction
+      // Mouse interaction
       const handleMouseMove = (event: MouseEvent) => {
         const rect = container.getBoundingClientRect();
-        const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        const y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-        
-        // Smooth interpolation to target rotation
-        targetRotationRef.current.x = y * 0.3;
-        targetRotationRef.current.y = x * 0.5;
+        mouseRef.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseRef.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
       };
 
       container.addEventListener('mousemove', handleMouseMove);
-
-      // Auto-solve animation
-      const startSolvingAnimation = () => {
-        solvingRef.current.isSolving = true;
-        solvingRef.current.step = 0;
-      };
-
-      const solvingInterval = setInterval(startSolvingAnimation, 6000);
 
       // Resize handler
       const handleResize = () => {
@@ -192,7 +157,7 @@ const RubiksCube = () => {
 
       // Animation loop
       const clock = new THREE.Clock();
-      let currentRotation = { x: 0, y: 0 };
+      let autoRotation = { x: 0, y: 0 };
 
       const animate = () => {
         animationRef.current = requestAnimationFrame(animate);
@@ -201,83 +166,28 @@ const RubiksCube = () => {
         const time = clock.getElapsedTime();
 
         if (cubeGroup) {
-          // Smooth rotation interpolation
-          const lerpFactor = 0.05;
-          currentRotation.x += (targetRotationRef.current.x - currentRotation.x) * lerpFactor;
-          currentRotation.y += (targetRotationRef.current.y - currentRotation.y) * lerpFactor;
+          // Smooth mouse following
+          const targetRotationY = mouseRef.current.x * 0.3;
+          const targetRotationX = mouseRef.current.y * 0.2;
           
-          // Auto rotation when not being controlled
-          const autoRotationSpeed = 0.2;
-          cubeGroup.rotation.x = currentRotation.x + Math.sin(time * autoRotationSpeed) * 0.1;
-          cubeGroup.rotation.y = currentRotation.y + time * autoRotationSpeed * 0.5;
+          // Auto rotation when not interacting
+          autoRotation.x += delta * 0.2;
+          autoRotation.y += delta * 0.15;
+          
+          // Blend auto rotation with mouse interaction
+          cubeGroup.rotation.y += (targetRotationY + autoRotation.y - cubeGroup.rotation.y) * 0.05;
+          cubeGroup.rotation.x += (targetRotationX + autoRotation.x - cubeGroup.rotation.x) * 0.05;
 
-          // Floating animation
-          cubeGroup.position.y = Math.sin(time * 0.8) * 0.1;
+          // Subtle floating animation
+          cubeGroup.position.y = Math.sin(time * 0.5) * 0.1;
 
-          // Solving animation
-          if (solvingRef.current.isSolving) {
-            const solvingProgress = (time * 1.5) % 8;
-            const step = Math.floor(solvingProgress);
-            
-            individualCubes.forEach((cube, index) => {
-              const { layerX, layerY, layerZ } = cube.userData;
-              const rotationIntensity = Math.sin(time * 4) * 0.5;
-              
-              // Reset all rotations first
-              cube.rotation.set(0, 0, 0);
-              
-              // Apply solving rotations based on step
-              switch (step) {
-                case 0: // Front face
-                  if (layerZ === 2) cube.rotation.z = rotationIntensity;
-                  break;
-                case 1: // Right face
-                  if (layerX === 2) cube.rotation.x = rotationIntensity;
-                  break;
-                case 2: // Up face
-                  if (layerY === 2) cube.rotation.y = rotationIntensity;
-                  break;
-                case 3: // Left face
-                  if (layerX === 0) cube.rotation.x = -rotationIntensity;
-                  break;
-                case 4: // Down face
-                  if (layerY === 0) cube.rotation.y = -rotationIntensity;
-                  break;
-                case 5: // Back face
-                  if (layerZ === 0) cube.rotation.z = -rotationIntensity;
-                  break;
-                default:
-                  // Gentle return to position
-                  cube.rotation.x += (0 - cube.rotation.x) * 0.1;
-                  cube.rotation.y += (0 - cube.rotation.y) * 0.1;
-                  cube.rotation.z += (0 - cube.rotation.z) * 0.1;
-              }
-              
-              // Subtle individual cube movements
-              const waveX = Math.sin(time * 0.5 + index * 0.2) * 0.03;
-              const waveZ = Math.cos(time * 0.5 + index * 0.2) * 0.03;
-              cube.position.x = cube.userData.originalPosition.x + waveX;
-              cube.position.z = cube.userData.originalPosition.z + waveZ;
-            });
-            
-            // End solving after full cycle
-            if (solvingProgress > 7.5) {
-              solvingRef.current.isSolving = false;
+          // Individual cube micro-rotations for added dynamism
+          cubeGroup.children.forEach((cube, index) => {
+            if (cube instanceof THREE.Mesh) {
+              const offset = index * 0.1;
+              cube.rotation.z = Math.sin(time * 0.3 + offset) * 0.02;
             }
-          } else {
-            // Normal state - gentle movements
-            individualCubes.forEach((cube, index) => {
-              const waveX = Math.sin(time * 0.3 + index * 0.1) * 0.01;
-              const waveZ = Math.cos(time * 0.3 + index * 0.1) * 0.01;
-              cube.position.x = cube.userData.originalPosition.x + waveX;
-              cube.position.z = cube.userData.originalPosition.z + waveZ;
-              
-              // Reset individual rotations smoothly
-              cube.rotation.x *= 0.95;
-              cube.rotation.y *= 0.95;
-              cube.rotation.z *= 0.95;
-            });
-          }
+          });
         }
 
         renderer.render(scene, camera);
@@ -285,13 +195,12 @@ const RubiksCube = () => {
 
       animate();
 
-      // Cleanup
+      // Cleanup function
       return () => {
         if (animationRef.current) {
           cancelAnimationFrame(animationRef.current);
         }
 
-        clearInterval(solvingInterval);
         container.removeEventListener('mousemove', handleMouseMove);
         window.removeEventListener('resize', handleResize);
 
@@ -299,7 +208,7 @@ const RubiksCube = () => {
           container.removeChild(renderer.domElement);
         }
 
-        // Dispose resources
+        // Dispose of geometries and materials
         cubeGroup.children.forEach((child) => {
           if (child instanceof THREE.Mesh) {
             child.geometry.dispose();
@@ -312,32 +221,34 @@ const RubiksCube = () => {
         });
 
         renderer.dispose();
+        sceneRef.current = undefined;
+        rendererRef.current = undefined;
+        cubeGroupRef.current = undefined;
       };
 
     } catch (error) {
-      console.error("Three.js error:", error);
+      console.error("Three.js Rubik's cube initialization error:", error);
       setWebGLFailed(true);
     }
   }, []);
 
-  // Fallback UI
+  // Fallback when WebGL is not available
   if (webGLFailed) {
     return (
       <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-lg">
-        <div className="grid grid-cols-3 gap-2 w-48 h-48 transform rotate-12">
+        <div className="grid grid-cols-3 gap-1 w-32 h-32 transform rotate-12">
           {Array.from({ length: 9 }).map((_, i) => (
             <div
               key={i}
-              className={`w-12 h-12 rounded-sm animate-pulse ${
-                i % 6 === 0 ? 'bg-yellow-400' :
-                i % 6 === 1 ? 'bg-yellow-500' :
-                i % 6 === 2 ? 'bg-yellow-600' :
-                i % 6 === 3 ? 'bg-orange-400' :
-                i % 6 === 4 ? 'bg-orange-500' : 'bg-yellow-300'
+              className={`w-8 h-8 rounded-sm animate-pulse ${
+                i % 6 === 0 ? 'bg-red-500' :
+                i % 6 === 1 ? 'bg-green-500' :
+                i % 6 === 2 ? 'bg-blue-500' :
+                i % 6 === 3 ? 'bg-yellow-500' :
+                i % 6 === 4 ? 'bg-orange-500' : 'bg-white'
               }`}
               style={{
-                animationDelay: `${i * 0.1}s`,
-                boxShadow: '0 4px 12px rgba(255, 215, 0, 0.4)'
+                animationDelay: `${i * 0.1}s`
               }}
             />
           ))}
@@ -350,7 +261,7 @@ const RubiksCube = () => {
     <div 
       ref={mountRef} 
       className="w-full h-full cursor-pointer"
-      style={{ minHeight: '500px' }}
+      style={{ minHeight: '400px' }}
     />
   );
 };

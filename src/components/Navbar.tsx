@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { MoreHorizontal, X } from "lucide-react";
 
 const Navbar = () => {
@@ -50,31 +51,45 @@ const Navbar = () => {
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <Link to="/" className="flex items-center space-x-3 z-60">
-              <div className="w-12 h-12 rounded-full overflow-hidden bg-gradient-to-br from-iconic-gold/20 to-iconic-blue/20 p-2">
-                <img 
-                  src="/lovable-uploads/4fa324e0-d92d-45ae-92ab-42b0e8a621a1.png" 
-                  alt="ICONIC Infinity Group Logo" 
-                  className="w-full h-full object-contain filter brightness-110"
-                />
+            {/* Enhanced Logo */}
+            <Link to="/" className="flex items-center space-x-3 z-60 group">
+              <div className="relative w-14 h-14 rounded-full overflow-hidden bg-gradient-to-br from-iconic-gold/30 to-iconic-blue/30 p-2 transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-iconic-gold/40">
+                {/* Glow effect */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-iconic-gold/20 to-iconic-blue/20 blur-sm"></div>
+                <div className="relative w-full h-full rounded-full bg-gradient-to-br from-iconic-gold/10 to-iconic-blue/10 p-1">
+                  <img 
+                    src="/lovable-uploads/4fa324e0-d92d-45ae-92ab-42b0e8a621a1.png" 
+                    alt="ICONIC Infinity Group Logo" 
+                    className="w-full h-full object-contain filter brightness-125 contrast-110 drop-shadow-lg transition-all duration-300 group-hover:brightness-150"
+                    style={{
+                      filter: 'brightness(1.3) contrast(1.2) drop-shadow(0 0 8px rgba(255, 215, 0, 0.3))'
+                    }}
+                  />
+                </div>
               </div>
-              <span className="text-xl font-bold bg-gradient-to-r from-iconic-blue to-iconic-gold bg-clip-text text-transparent">
+              <span className="text-xl font-bold bg-gradient-to-r from-iconic-blue to-iconic-gold bg-clip-text text-transparent transition-all duration-300 group-hover:scale-105">
                 ICONIC Infinity Group
               </span>
             </Link>
 
-            {/* Three Dots Menu Button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-3 rounded-full bg-iconic-blue/10 hover:bg-iconic-blue/20 backdrop-blur-sm border border-iconic-blue/20 transition-all duration-300 hover:scale-110 z-60"
-            >
-              {isOpen ? (
-                <X className="w-6 h-6 text-iconic-blue" />
-              ) : (
-                <MoreHorizontal className="w-6 h-6 text-iconic-blue" />
-              )}
-            </button>
+            {/* Enhanced Three Dots Menu Button with Tooltip */}
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="p-3 rounded-full bg-iconic-blue/10 hover:bg-iconic-blue/20 backdrop-blur-sm border border-iconic-blue/20 transition-all duration-300 hover:scale-110 hover:shadow-lg hover:shadow-iconic-blue/30 z-60 group"
+                >
+                  {isOpen ? (
+                    <X className="w-6 h-6 text-iconic-blue transition-transform duration-300 group-hover:rotate-90" />
+                  ) : (
+                    <MoreHorizontal className="w-6 h-6 text-iconic-blue transition-transform duration-300 group-hover:scale-110" />
+                  )}
+                </button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom" className="bg-iconic-dark text-white border-iconic-gold/20">
+                <p>Menu</p>
+              </TooltipContent>
+            </Tooltip>
           </div>
         </div>
       </nav>

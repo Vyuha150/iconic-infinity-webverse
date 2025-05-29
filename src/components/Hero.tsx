@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import RubiksCube from "./RubiksCube";
-import { Star, Target, Zap, Users } from "lucide-react";
+import { Star, Target, Zap, Users, ArrowRight, Sparkles } from "lucide-react";
 
 const Hero = () => {
   useEffect(() => {
@@ -63,23 +63,70 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center bg-white dark:bg-iconic-dark overflow-hidden pt-16">
-      {/* Gold sparkles background - same as other sections */}
+      {/* Constellation Background */}
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-iconic-dark dark:via-iconic-slate/20 dark:to-iconic-dark">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(255,215,0,0.1),transparent_50%)] dark:bg-[radial-gradient(circle_at_30%_40%,rgba(255,215,0,0.15),transparent_50%)]"></div>
-          {/* Animated sparkles */}
+          
+          {/* Constellation Pattern */}
           <div className="absolute inset-0">
-            {Array.from({ length: 20 }).map((_, i) => (
+            {/* Stars */}
+            {Array.from({ length: 80 }).map((_, i) => (
               <div
-                key={i}
+                key={`star-${i}`}
                 className="absolute w-1 h-1 bg-iconic-gold rounded-full animate-pulse"
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
                   animationDelay: `${Math.random() * 3}s`,
-                  animationDuration: `${2 + Math.random() * 2}s`
+                  animationDuration: `${2 + Math.random() * 2}s`,
+                  opacity: 0.3 + Math.random() * 0.7
                 }}
               />
+            ))}
+            
+            {/* Constellation Lines */}
+            <svg className="absolute inset-0 w-full h-full opacity-20">
+              {Array.from({ length: 15 }).map((_, i) => (
+                <line
+                  key={`line-${i}`}
+                  x1={`${Math.random() * 100}%`}
+                  y1={`${Math.random() * 100}%`}
+                  x2={`${Math.random() * 100}%`}
+                  y2={`${Math.random() * 100}%`}
+                  stroke="rgba(255, 215, 0, 0.3)"
+                  strokeWidth="0.5"
+                  className="animate-pulse"
+                  style={{
+                    animationDelay: `${Math.random() * 2}s`,
+                    animationDuration: `${3 + Math.random() * 2}s`
+                  }}
+                />
+              ))}
+            </svg>
+          </div>
+          
+          {/* Enhanced Sparkles with motion */}
+          <div className="absolute inset-0">
+            {Array.from({ length: 30 }).map((_, i) => (
+              <div
+                key={`sparkle-${i}`}
+                className="absolute animate-float"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                  animationDelay: `${Math.random() * 3}s`,
+                  animationDuration: `${4 + Math.random() * 2}s`
+                }}
+              >
+                <Sparkles 
+                  className="w-2 h-2 text-iconic-gold opacity-40 animate-pulse"
+                  style={{
+                    filter: 'drop-shadow(0 0 2px rgba(255, 215, 0, 0.6))',
+                    animationDelay: `${Math.random() * 2}s`
+                  }}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -90,7 +137,7 @@ const Hero = () => {
           
           {/* Left Column - Content */}
           <div className="space-y-8">
-            {/* Main Heading - Fixed to show "ICONIC Infinity Group" in same line */}
+            {/* Main Heading */}
             <div className="space-y-6 text-center lg:text-left">
               <h1 className="opacity-0 animate-on-load text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-gray-900 dark:text-white leading-[1.1]">
                 <span className="bg-gradient-to-r from-iconic-blue via-iconic-gold to-iconic-blue bg-clip-text text-transparent whitespace-nowrap">
@@ -98,38 +145,54 @@ const Hero = () => {
                 </span>
               </h1>
               
-              {/* Content in 2 lines */}
-              <div className="opacity-0 animate-on-load space-y-2">
-                <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
-                  Face of the Future
-                </p>
-                <p className="text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
+              {/* Enhanced Content with better hierarchy */}
+              <div className="opacity-0 animate-on-load space-y-4">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-gray-900 dark:text-white leading-tight">
+                  <span className="relative">
+                    Face of the Future
+                    <div className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-iconic-blue to-iconic-gold rounded-full opacity-70"></div>
+                  </span>
+                </h2>
+                
+                <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl">
                   Excellence, quality and innovation across multiple verticals
+                </p>
+                
+                <p className="text-base sm:text-lg text-gray-500 dark:text-gray-400 leading-relaxed max-w-2xl font-medium">
+                  A multi-domain enterprise delivering cutting-edge solutions in technology, design, sustainability, and construction.
                 </p>
               </div>
             </div>
 
-            {/* CTA Buttons */}
+            {/* Enhanced CTA Buttons */}
             <div className="opacity-0 animate-on-load flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button 
                 asChild
                 size="lg" 
-                className="bg-iconic-blue hover:bg-iconic-blue/90 text-white font-medium text-base px-8 py-6 rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-iconic-blue/20"
+                className="group bg-gradient-to-r from-iconic-blue to-iconic-blue/90 hover:from-iconic-blue/90 hover:to-iconic-blue text-white font-semibold text-base px-8 py-6 rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-iconic-blue/30 hover:scale-105"
               >
-                <Link to="/services">Explore Our Services</Link>
+                <Link to="/services" className="flex items-center gap-2">
+                  <Sparkles className="w-5 h-5" />
+                  Explore Our Services
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
               </Button>
               <Button 
                 asChild
                 size="lg" 
                 variant="outline" 
-                className="border-2 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-800 font-medium text-base px-8 py-6 rounded-lg transition-all duration-300"
+                className="group border-2 border-iconic-gold/50 text-gray-900 dark:text-white hover:bg-iconic-gold/10 hover:border-iconic-gold font-semibold text-base px-8 py-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-iconic-gold/20 hover:scale-105"
               >
-                <Link to="/about">Learn More</Link>
+                <Link to="/about" className="flex items-center gap-2">
+                  <Target className="w-5 h-5" />
+                  Learn More
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
               </Button>
             </div>
           </div>
 
-          {/* Right Column - Animated Rubik's Cube */}
+          {/* Right Column - Enhanced Rubik's Cube */}
           <div className="flex justify-center lg:justify-end">
             <div className="relative w-full max-w-lg h-[600px] opacity-0 animate-on-load">
               <RubiksCube />
@@ -145,13 +208,13 @@ const Hero = () => {
             {coreValues.map((value, index) => (
               <div
                 key={value.title}
-                className="opacity-0 animate-on-load text-center group"
+                className="opacity-0 animate-on-load text-center group cursor-pointer"
                 style={{ animationDelay: `${index * 100 + 800}ms` }}
               >
                 <div className="relative mx-auto w-20 h-20 mb-4">
-                  <div className="absolute inset-0 bg-gradient-to-br from-iconic-gold/20 to-iconic-blue/20 rounded-full transition-all duration-300 group-hover:scale-110"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-iconic-gold/20 to-iconic-blue/20 rounded-full transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-iconic-gold/30"></div>
                   <div className="relative flex items-center justify-center w-full h-full">
-                    <value.icon className="w-8 h-8 text-iconic-gold transition-colors duration-300 group-hover:text-iconic-blue" />
+                    <value.icon className="w-8 h-8 text-iconic-gold transition-all duration-300 group-hover:text-iconic-blue group-hover:scale-110" />
                   </div>
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 transition-colors duration-300 group-hover:text-iconic-blue">

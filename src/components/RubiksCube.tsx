@@ -73,32 +73,38 @@ const RubiksCube = () => {
       cubeGroupRef.current = cubeGroup;
       scene.add(cubeGroup);
 
-      // Define colors for each vertical
-      const verticalColors = [
-        0x0047AB, // Dark blue for main faces
-        0x1E293B, // Darker blue-gray for contrast
-        0xFFD700, // Gold for accent faces
-        0x2563EB, // Bright blue variation
-        0x1E40AF, // Medium blue
-        0xB8860B  // Darker gold
+      // Define colors for the 12 companies with goldish accents
+      const companyColors = [
+        0x0047AB, // ICONIC Core - Navy Blue
+        0x1E40AF, // Stay More - Medium Blue
+        0xFFD700, // OJAS - Gold
+        0x2563EB, // Right Homes - Bright Blue
+        0xB8860B, // Innovation Hub - Dark Gold
+        0x3B82F6, // Digital Solutions - Light Blue
+        0xFFA500, // Design Studio - Orange Gold
+        0x1E293B, // Construction - Dark Blue Slate
+        0xDAA520, // Sustainability - Golden Rod
+        0x4F46E5, // Technology - Indigo
+        0xF59E0B, // Premium Services - Amber
+        0x0369A1  // Future Ventures - Deep Blue
       ];
 
-      // Create materials for each vertical with enhanced properties
-      const materials = verticalColors.map(color => {
-        const isGold = color === 0xFFD700 || color === 0xB8860B;
+      // Create materials for each company with enhanced properties
+      const materials = companyColors.map((color, index) => {
+        const isGoldish = [2, 4, 6, 8, 10].includes(index); // Gold variations
         return new THREE.MeshPhysicalMaterial({
           color: color,
-          metalness: isGold ? 1.0 : 0.2,
-          roughness: isGold ? 0.02 : 0.1,
+          metalness: isGoldish ? 0.9 : 0.3,
+          roughness: isGoldish ? 0.05 : 0.15,
           transmission: 0,
           transparent: false,
           opacity: 1,
           clearcoat: 1.0,
-          clearcoatRoughness: isGold ? 0.01 : 0.05,
+          clearcoatRoughness: isGoldish ? 0.02 : 0.08,
           ior: 1.8,
           envMap: envTexture,
-          envMapIntensity: isGold ? 2.5 : 1.5,
-          reflectivity: isGold ? 1.0 : 0.7
+          envMapIntensity: isGoldish ? 2.8 : 1.8,
+          reflectivity: isGoldish ? 0.95 : 0.75
         });
       });
 
@@ -114,14 +120,15 @@ const RubiksCube = () => {
             // Enhanced geometry with more segments for smoother reflections
             const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize, 8, 8, 8);
             
-            // Assign different materials to each face to represent verticals
+            // Assign different materials to each face to represent companies
+            const cubeIndex = x * 9 + y * 3 + z;
             const faceMaterials = [
-              materials[0], // Right face - Dark blue (ICONIC Core)
-              materials[1], // Left face - Darker blue-gray (Stay More)
-              materials[2], // Top face - Gold (Premium services)
-              materials[3], // Bottom face - Bright blue (OJAS)
-              materials[4], // Front face - Medium blue (Right Homes)
-              materials[5]  // Back face - Darker gold (Innovation)
+              materials[cubeIndex % 12], // Right face
+              materials[(cubeIndex + 1) % 12], // Left face
+              materials[(cubeIndex + 2) % 12], // Top face
+              materials[(cubeIndex + 3) % 12], // Bottom face
+              materials[(cubeIndex + 4) % 12], // Front face
+              materials[(cubeIndex + 5) % 12]  // Back face
             ];
             
             const cube = new THREE.Mesh(geometry, faceMaterials);
@@ -135,13 +142,13 @@ const RubiksCube = () => {
             cube.castShadow = true;
             cube.receiveShadow = true;
 
-            // Add beveled edges with contrasting color
+            // Add beveled edges with goldish color instead of blackish
             const edges = new THREE.EdgesGeometry(geometry);
             const edgeMaterial = new THREE.LineBasicMaterial({ 
-              color: 0x1E293B, // Dark blue-gray for edges
+              color: 0xDAA520, // Goldish color for edges
               linewidth: 2,
               transparent: true,
-              opacity: 0.8
+              opacity: 0.9
             });
             const edgeLines = new THREE.LineSegments(edges, edgeMaterial);
             cube.add(edgeLines);
@@ -261,9 +268,10 @@ const RubiksCube = () => {
               cube.material.forEach((mat, faceIndex) => {
                 if (mat instanceof THREE.MeshPhysicalMaterial) {
                   // Subtle variations for dynamic reflections
-                  const isGold = mat.color.getHex() === 0xFFD700 || mat.color.getHex() === 0xB8860B;
-                  mat.roughness = (isGold ? 0.02 : 0.1) + Math.sin(time * 1.5 + index * 0.1 + faceIndex) * 0.01;
-                  mat.envMapIntensity = (isGold ? 2.5 : 1.5) + Math.sin(time * 2 + index * 0.1 + faceIndex) * 0.2;
+                  const materialIndex = (index + faceIndex) % 12;
+                  const isGoldish = [2, 4, 6, 8, 10].includes(materialIndex);
+                  mat.roughness = (isGoldish ? 0.05 : 0.15) + Math.sin(time * 1.5 + index * 0.1 + faceIndex) * 0.01;
+                  mat.envMapIntensity = (isGoldish ? 2.8 : 1.8) + Math.sin(time * 2 + index * 0.1 + faceIndex) * 0.2;
                 }
               });
             }
@@ -330,9 +338,9 @@ const RubiksCube = () => {
         <div className="grid grid-cols-3 gap-1 w-40 h-40 transform rotate-12 hover:rotate-0 transition-transform duration-500">
           {Array.from({ length: 9 }).map((_, i) => {
             const colors = [
-              'linear-gradient(135deg, #0047AB 0%, #1E293B 100%)', // Dark blue
-              'linear-gradient(135deg, #FFD700 0%, #B8860B 100%)', // Gold
-              'linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)'  // Blue variants
+              'linear-gradient(135deg, #0047AB 0%, #DAA520 100%)', // Dark blue to gold
+              'linear-gradient(135deg, #FFD700 0%, #B8860B 100%)', // Gold variations
+              'linear-gradient(135deg, #2563EB 0%, #FFA500 100%)'  // Blue to orange-gold
             ];
             return (
               <div

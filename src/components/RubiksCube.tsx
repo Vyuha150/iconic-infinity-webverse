@@ -73,21 +73,33 @@ const RubiksCube = () => {
       cubeGroupRef.current = cubeGroup;
       scene.add(cubeGroup);
 
-      // Luxurious gold material with high-end properties
-      const goldColor = 0xFFD700; // Pure gold color
-      const goldMaterial = new THREE.MeshPhysicalMaterial({
-        color: goldColor,
-        metalness: 1.0,
-        roughness: 0.02,
-        transmission: 0,
-        transparent: false,
-        opacity: 1,
-        clearcoat: 1.0,
-        clearcoatRoughness: 0.01,
-        ior: 1.8,
-        envMap: envTexture,
-        envMapIntensity: 2.0,
-        reflectivity: 1.0
+      // Define colors for each vertical
+      const verticalColors = [
+        0x0047AB, // Dark blue for main faces
+        0x1E293B, // Darker blue-gray for contrast
+        0xFFD700, // Gold for accent faces
+        0x2563EB, // Bright blue variation
+        0x1E40AF, // Medium blue
+        0xB8860B  // Darker gold
+      ];
+
+      // Create materials for each vertical with enhanced properties
+      const materials = verticalColors.map(color => {
+        const isGold = color === 0xFFD700 || color === 0xB8860B;
+        return new THREE.MeshPhysicalMaterial({
+          color: color,
+          metalness: isGold ? 1.0 : 0.2,
+          roughness: isGold ? 0.02 : 0.1,
+          transmission: 0,
+          transparent: false,
+          opacity: 1,
+          clearcoat: 1.0,
+          clearcoatRoughness: isGold ? 0.01 : 0.05,
+          ior: 1.8,
+          envMap: envTexture,
+          envMapIntensity: isGold ? 2.5 : 1.5,
+          reflectivity: isGold ? 1.0 : 0.7
+        });
       });
 
       // Create individual cubes with enhanced geometry
@@ -102,7 +114,17 @@ const RubiksCube = () => {
             // Enhanced geometry with more segments for smoother reflections
             const geometry = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize, 8, 8, 8);
             
-            const cube = new THREE.Mesh(geometry, goldMaterial.clone());
+            // Assign different materials to each face to represent verticals
+            const faceMaterials = [
+              materials[0], // Right face - Dark blue (ICONIC Core)
+              materials[1], // Left face - Darker blue-gray (Stay More)
+              materials[2], // Top face - Gold (Premium services)
+              materials[3], // Bottom face - Bright blue (OJAS)
+              materials[4], // Front face - Medium blue (Right Homes)
+              materials[5]  // Back face - Darker gold (Innovation)
+            ];
+            
+            const cube = new THREE.Mesh(geometry, faceMaterials);
             
             cube.position.set(
               (x - 1) * offset,
@@ -113,13 +135,13 @@ const RubiksCube = () => {
             cube.castShadow = true;
             cube.receiveShadow = true;
 
-            // Add beveled edges with gold color
+            // Add beveled edges with contrasting color
             const edges = new THREE.EdgesGeometry(geometry);
             const edgeMaterial = new THREE.LineBasicMaterial({ 
-              color: 0xB8860B, // Darker gold for edges
+              color: 0x1E293B, // Dark blue-gray for edges
               linewidth: 2,
               transparent: true,
-              opacity: 0.9
+              opacity: 0.8
             });
             const edgeLines = new THREE.LineSegments(edges, edgeMaterial);
             cube.add(edgeLines);
@@ -130,12 +152,12 @@ const RubiksCube = () => {
         }
       }
 
-      // Enhanced lighting setup for gold reflections
-      const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
+      // Enhanced lighting setup for blue and gold reflections
+      const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
       scene.add(ambientLight);
 
       // Primary directional light for main illumination
-      const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
+      const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.8);
       directionalLight1.position.set(5, 5, 5);
       directionalLight1.castShadow = true;
       directionalLight1.shadow.mapSize.width = 2048;
@@ -144,26 +166,26 @@ const RubiksCube = () => {
       directionalLight1.shadow.camera.far = 50;
       scene.add(directionalLight1);
 
-      // Secondary light for reflections
-      const directionalLight2 = new THREE.DirectionalLight(0xffd700, 1.0);
+      // Secondary light for blue tones
+      const directionalLight2 = new THREE.DirectionalLight(0x4169E1, 1.2);
       directionalLight2.position.set(-5, 3, -3);
       scene.add(directionalLight2);
 
-      // Rim lighting for luxury effect
-      const rimLight = new THREE.DirectionalLight(0xffffff, 0.8);
+      // Gold accent lighting
+      const rimLight = new THREE.DirectionalLight(0xFFD700, 1.0);
       rimLight.position.set(0, -5, 5);
       scene.add(rimLight);
 
       // Multiple point lights for dynamic reflections
-      const pointLight1 = new THREE.PointLight(0xffffff, 1.2, 20);
+      const pointLight1 = new THREE.PointLight(0x0047AB, 1.5, 20);
       pointLight1.position.set(3, 3, 3);
       scene.add(pointLight1);
 
-      const pointLight2 = new THREE.PointLight(0xffd700, 1.0, 15);
+      const pointLight2 = new THREE.PointLight(0xFFD700, 1.2, 15);
       pointLight2.position.set(-3, -3, 3);
       scene.add(pointLight2);
 
-      const pointLight3 = new THREE.PointLight(0xffa500, 0.8, 12);
+      const pointLight3 = new THREE.PointLight(0x1E40AF, 1.0, 12);
       pointLight3.position.set(0, 5, -3);
       scene.add(pointLight3);
 
@@ -208,13 +230,13 @@ const RubiksCube = () => {
 
         if (cubeGroup) {
           // Calculate target rotation with increased speed
-          const baseIntensity = 0.8; // Increased from 0.4 for faster rotation
-          const mouseInfluence = 1.0; // Increased influence for more responsive movement
+          const baseIntensity = 0.8;
+          const mouseInfluence = 1.0;
           const targetRotationY = mouseRef.current.x * baseIntensity * mouseInfluence;
           const targetRotationX = mouseRef.current.y * baseIntensity * mouseInfluence * 0.6;
           
           // Smooth interpolation with slightly faster response
-          const lerpFactor = 0.03; // Increased from 0.02 for snappier movement
+          const lerpFactor = 0.03;
           currentRotationRef.current.x = THREE.MathUtils.lerp(
             currentRotationRef.current.x,
             targetRotationX,
@@ -233,19 +255,24 @@ const RubiksCube = () => {
           // Enhanced floating animation
           cubeGroup.position.y = Math.sin(time * 0.6) * 0.15;
 
-          // Dynamic material effects for gold shine
+          // Dynamic material effects for enhanced reflections
           cubes.forEach((cube, index) => {
-            if (cube.material instanceof THREE.MeshPhysicalMaterial) {
-              // Subtle roughness variation for dynamic reflections
-              cube.material.roughness = 0.02 + Math.sin(time * 1.5 + index * 0.1) * 0.01;
-              cube.material.envMapIntensity = 2.0 + Math.sin(time * 2 + index * 0.1) * 0.3;
+            if (Array.isArray(cube.material)) {
+              cube.material.forEach((mat, faceIndex) => {
+                if (mat instanceof THREE.MeshPhysicalMaterial) {
+                  // Subtle variations for dynamic reflections
+                  const isGold = mat.color.getHex() === 0xFFD700 || mat.color.getHex() === 0xB8860B;
+                  mat.roughness = (isGold ? 0.02 : 0.1) + Math.sin(time * 1.5 + index * 0.1 + faceIndex) * 0.01;
+                  mat.envMapIntensity = (isGold ? 2.5 : 1.5) + Math.sin(time * 2 + index * 0.1 + faceIndex) * 0.2;
+                }
+              });
             }
           });
 
           // Dynamic lighting effects for premium look
-          pointLight1.intensity = 1.2 + Math.sin(time * 2) * 0.3;
-          pointLight2.intensity = 1.0 + Math.sin(time * 1.5) * 0.2;
-          pointLight3.intensity = 0.8 + Math.sin(time * 1.8) * 0.2;
+          pointLight1.intensity = 1.5 + Math.sin(time * 2) * 0.3;
+          pointLight2.intensity = 1.2 + Math.sin(time * 1.5) * 0.2;
+          pointLight3.intensity = 1.0 + Math.sin(time * 1.8) * 0.2;
           
           // Rotate lights for dynamic reflections
           pointLight1.position.x = 3 * Math.cos(time * 0.5);
@@ -282,6 +309,7 @@ const RubiksCube = () => {
           }
         });
 
+        materials.forEach(material => material.dispose());
         renderer.dispose();
         pmremGenerator.dispose();
         sceneRef.current = undefined;
@@ -300,16 +328,23 @@ const RubiksCube = () => {
     return (
       <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-lg">
         <div className="grid grid-cols-3 gap-1 w-40 h-40 transform rotate-12 hover:rotate-0 transition-transform duration-500">
-          {Array.from({ length: 9 }).map((_, i) => (
-            <div
-              key={i}
-              className="w-10 h-10 rounded-sm animate-pulse shadow-lg hover:scale-110 transition-transform duration-300"
-              style={{
-                animationDelay: `${i * 0.1}s`,
-                background: 'linear-gradient(135deg, #FFD700 0%, #B8860B 100%)'
-              }}
-            />
-          ))}
+          {Array.from({ length: 9 }).map((_, i) => {
+            const colors = [
+              'linear-gradient(135deg, #0047AB 0%, #1E293B 100%)', // Dark blue
+              'linear-gradient(135deg, #FFD700 0%, #B8860B 100%)', // Gold
+              'linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)'  // Blue variants
+            ];
+            return (
+              <div
+                key={i}
+                className="w-10 h-10 rounded-sm animate-pulse shadow-lg hover:scale-110 transition-transform duration-300"
+                style={{
+                  animationDelay: `${i * 0.1}s`,
+                  background: colors[i % 3]
+                }}
+              />
+            );
+          })}
         </div>
       </div>
     );

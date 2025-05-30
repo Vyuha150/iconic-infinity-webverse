@@ -73,19 +73,19 @@ const RubiksCube = () => {
       cubeGroupRef.current = cubeGroup;
       scene.add(cubeGroup);
 
-      // Define colors for each vertical
+      // Define colors for each vertical with goldish accents instead of blackish
       const verticalColors = [
         0x0047AB, // Dark blue for main faces
-        0x1E293B, // Darker blue-gray for contrast
+        0xB8860B, // Goldish bronze (instead of dark blue-gray)
         0xFFD700, // Gold for accent faces
         0x2563EB, // Bright blue variation
         0x1E40AF, // Medium blue
-        0xB8860B  // Darker gold
+        0xDAA520  // Goldish yellow (instead of darker gold)
       ];
 
       // Create materials for each vertical with enhanced properties
       const materials = verticalColors.map(color => {
-        const isGold = color === 0xFFD700 || color === 0xB8860B;
+        const isGold = color === 0xFFD700 || color === 0xB8860B || color === 0xDAA520;
         return new THREE.MeshPhysicalMaterial({
           color: color,
           metalness: isGold ? 1.0 : 0.2,
@@ -117,11 +117,11 @@ const RubiksCube = () => {
             // Assign different materials to each face to represent verticals
             const faceMaterials = [
               materials[0], // Right face - Dark blue (ICONIC Core)
-              materials[1], // Left face - Darker blue-gray (Stay More)
+              materials[1], // Left face - Goldish bronze (Stay More)
               materials[2], // Top face - Gold (Premium services)
               materials[3], // Bottom face - Bright blue (OJAS)
               materials[4], // Front face - Medium blue (Right Homes)
-              materials[5]  // Back face - Darker gold (Innovation)
+              materials[5]  // Back face - Goldish yellow (Innovation)
             ];
             
             const cube = new THREE.Mesh(geometry, faceMaterials);
@@ -135,10 +135,10 @@ const RubiksCube = () => {
             cube.castShadow = true;
             cube.receiveShadow = true;
 
-            // Add beveled edges with contrasting color
+            // Add beveled edges with goldish accent color
             const edges = new THREE.EdgesGeometry(geometry);
             const edgeMaterial = new THREE.LineBasicMaterial({ 
-              color: 0x1E293B, // Dark blue-gray for edges
+              color: 0xDAA520, // Goldish yellow for edges (instead of dark blue-gray)
               linewidth: 2,
               transparent: true,
               opacity: 0.8
@@ -261,7 +261,7 @@ const RubiksCube = () => {
               cube.material.forEach((mat, faceIndex) => {
                 if (mat instanceof THREE.MeshPhysicalMaterial) {
                   // Subtle variations for dynamic reflections
-                  const isGold = mat.color.getHex() === 0xFFD700 || mat.color.getHex() === 0xB8860B;
+                  const isGold = mat.color.getHex() === 0xFFD700 || mat.color.getHex() === 0xB8860B || mat.color.getHex() === 0xDAA520;
                   mat.roughness = (isGold ? 0.02 : 0.1) + Math.sin(time * 1.5 + index * 0.1 + faceIndex) * 0.01;
                   mat.envMapIntensity = (isGold ? 2.5 : 1.5) + Math.sin(time * 2 + index * 0.1 + faceIndex) * 0.2;
                 }
@@ -330,8 +330,8 @@ const RubiksCube = () => {
         <div className="grid grid-cols-3 gap-1 w-40 h-40 transform rotate-12 hover:rotate-0 transition-transform duration-500">
           {Array.from({ length: 9 }).map((_, i) => {
             const colors = [
-              'linear-gradient(135deg, #0047AB 0%, #1E293B 100%)', // Dark blue
-              'linear-gradient(135deg, #FFD700 0%, #B8860B 100%)', // Gold
+              'linear-gradient(135deg, #0047AB 0%, #B8860B 100%)', // Dark blue to goldish bronze
+              'linear-gradient(135deg, #FFD700 0%, #DAA520 100%)', // Gold to goldish yellow
               'linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)'  // Blue variants
             ];
             return (
